@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class DataPersistenceManager : MonoBehaviour
 {
@@ -21,6 +22,7 @@ public class DataPersistenceManager : MonoBehaviour
 
     public void Start()
     {
+        dataPersistences = FindAllDataPersistenceObjects();
         LoadGame();
     }
 
@@ -31,9 +33,15 @@ public class DataPersistenceManager : MonoBehaviour
 
     public void SaveGame()
     {
+        foreach(IDataPersistence dataPersistence in dataPersistences) 
+        {
+            dataPersistence.SaveData(ref gameData);
+        }
         // TODO - pass the data to other scripts so they can update it
 
         // TODO - save that data to a file using the data handler
+        Debug.Log("Saved death count = " + gameData.deathCount);
+        
     }
 
     public void LoadGame()
@@ -47,11 +55,23 @@ public class DataPersistenceManager : MonoBehaviour
             NewGame();
         }
 
+        foreach(IDataPersistence dataPersistence in dataPersistences)
+        {
+            dataPersistence.LoadData(gameData);
+        }
+
+        Debug.Log("Loaded death count = " + gameData.deathCount);
         // TO DO - Push the loaded data to all other scrips that need it
     }
 
     private void OnApplicationQuit()
     {
         SaveGame();
+    }
+
+    private List<IDataPersistence> FindAllDataPersistenceObjects()
+    {
+        IEnumerable<IDataPersistence> dataPersistencesObjects = FindObjectsOfType<MonoBehaviour>().OfType<IDataPersistence>();
+        return new List<IDataPersistence>(dataPersistencesObjects);
     }
 }
