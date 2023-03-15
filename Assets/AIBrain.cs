@@ -9,6 +9,7 @@ public class AIBrain : MonoBehaviour
 
     [SerializeField, BoxGroup("Dependencies")] Entity _root;
     [SerializeField, BoxGroup("Dependencies")] EntityMovement _movement;
+    [SerializeField, BoxGroup("Dependencies")] EntityAttack _attack;
 
     [SerializeField, BoxGroup("Conf")] float _distanceDetection;
     [SerializeField, BoxGroup("Conf")] float _stopDistance;
@@ -43,7 +44,7 @@ public class AIBrain : MonoBehaviour
         if(IsPlayerTooNear)
         {
             _movement.Move(Vector2.zero);
-            // Attack
+            _attack.LaunchAttack();
         }
         // Move To Player
         else if (IsPlayerNear)

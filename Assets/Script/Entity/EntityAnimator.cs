@@ -7,10 +7,14 @@ public class EntityAnimator : MonoBehaviour
 {
     [SerializeField, Required, BoxGroup("Dependencies")] Animator _animator;
     [SerializeField, Required, BoxGroup("Dependencies")] EntityMovement _movement;
+    [SerializeField, Required, BoxGroup("Dependencies")] EntityAttack _attack;
 
     [BoxGroup("Animator Param")]
     [SerializeField, AnimatorParam(nameof(_animator), AnimatorControllerParameterType.Bool)]
     int _isWalkingParam;
+    [BoxGroup("Animator Param")]
+    [SerializeField, AnimatorParam(nameof(_animator), AnimatorControllerParameterType.Trigger)]
+    int _attackTriggerParam;
 
     #region Editor
 #if UNITY_EDITOR
@@ -24,16 +28,24 @@ public class EntityAnimator : MonoBehaviour
 
     void Start()
     {
+        // Move
         _movement.OnStartWalking += MoveStart;
         _movement.OnStopWalking += MoveStop;
+        // Attack
+        _attack.OnAttack += Attack;
     }
+
     void OnDestroy()
     {
+        // Move
         _movement.OnStartWalking -= MoveStart;
         _movement.OnStopWalking -= MoveStop;
+        // Attack
+        _attack.OnAttack -= Attack;
     }
 
     void MoveStart() => _animator.SetBool(_isWalkingParam, true);
     void MoveStop() => _animator.SetBool(_isWalkingParam, false);
+    void Attack() => _animator.SetTrigger(_attackTriggerParam);
 
 }
