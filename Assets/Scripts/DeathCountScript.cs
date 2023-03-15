@@ -2,14 +2,16 @@ using UnityEngine;
 using TMPro;
 public class DeathCountScript : MonoBehaviour, IDataPersistence
 {
+    public TestDeathCountInvoker OnPlayerDeathInvoker;
+
     private int deathCount = 0;
     private TMP_Text deathCountText;
-    public GameEventsManager gameEvents;
+
     private void Awake()
     {
         deathCountText = GetComponentInChildren<TMP_Text>();
         deathCountText.text = deathCount.ToString();
-        gameEvents.OnPlayerDeath += OnPlayerDeath;    
+        OnPlayerDeathInvoker.OnPlayerDeath += OnPlayerDeath;
     }
 
     public void SaveData(ref GameData data)
@@ -20,10 +22,12 @@ public class DeathCountScript : MonoBehaviour, IDataPersistence
     public void LoadData(GameData data)
     {
         deathCount = data.deathCount;
+        deathCountText.text = deathCount.ToString();
     }
 
     private void OnPlayerDeath()
     {
         deathCount++;
+        deathCountText.text = deathCount.ToString();
     }
 }

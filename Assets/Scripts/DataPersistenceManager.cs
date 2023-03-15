@@ -5,10 +5,14 @@ using System.Linq;
 
 public class DataPersistenceManager : MonoBehaviour
 {
+    [Header("File Storage Config")]
+    [SerializeField] private string fileName;
+
     public static DataPersistenceManager Instance { get; private set; }
     public List<IDataPersistence> dataPersistences = new List<IDataPersistence>();
 
     private GameData gameData;
+    private FileDataHandler dataHandler;
     private void Awake()
     {
         if(Instance != null)
@@ -22,6 +26,7 @@ public class DataPersistenceManager : MonoBehaviour
 
     public void Start()
     {
+        dataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
         dataPersistences = FindAllDataPersistenceObjects();
         LoadGame();
     }
@@ -33,35 +38,31 @@ public class DataPersistenceManager : MonoBehaviour
 
     public void SaveGame()
     {
-        foreach(IDataPersistence dataPersistence in dataPersistences) 
+        // pass the data to other scripts so they can update it
+        foreach (IDataPersistence dataPersistence in dataPersistences) 
         {
             dataPersistence.SaveData(ref gameData);
         }
-        // TODO - pass the data to other scripts so they can update it
 
-        // TODO - save that data to a file using the data handler
-        Debug.Log("Saved death count = " + gameData.deathCount);
-        
+        // save that data to a file using the data handler
+        dataHandler.Save(gameData);
     }
 
     public void LoadGame()
     {
-        // TO DO - Load any saved data form a file using the data handlser
+        gameData = dataHandler.Load();
         // if no data cna be loaded, initialize to a new game
-
         if (gameData == null)
         {
             Debug.Log("No data was found. Initializing data to defaults.");
             NewGame();
         }
 
-        foreach(IDataPersistence dataPersistence in dataPersistences)
+        // pass the data to other scripts so they can update it
+        foreach (IDataPersistence dataPersistence in dataPersistences)
         {
             dataPersistence.LoadData(gameData);
         }
-
-        Debug.Log("Loaded death count = " + gameData.deathCount);
-        // TO DO - Push the loaded data to all other scrips that need it
     }
 
     private void OnApplicationQuit()
