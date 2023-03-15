@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Entity">
+    <Position X="6.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Entity\Entity.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_health" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="EntityAnimator" Collapsed="true">
+    <Position X="18" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABABAAACAABAAAAAAAAQAAAAAIAAAAIIAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Entity\EntityAnimator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EntityMovement">
+    <Position X="14.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAgAIAoAAFAAAAAAAACIAAAAAgAAgBCAAAgAAAAA=</HashCode>
+      <FileName>Assets\Script\Entity\EntityMovement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Health">
+    <Position X="3.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAACAAkAACAAAAAAQEAwAAAAAAQACCAAACAAAAAA=</HashCode>
+      <FileName>Assets\Script\HealthSystem\Health.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="HealthProxy">
+    <Position X="0.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAEAAAAAAAAAAAAAAQAAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\HealthSystem\HealthProxy.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_target" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="PlayerBrain">
+    <Position X="10.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAIAACAAAAAAAAAAAQAAAACAAAAAAAAAAAAACAA=</HashCode>
+      <FileName>Assets\Script\Entity\PlayerBrain.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_movement" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="AIBrain" Collapsed="true">
+    <Position X="10.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAIQBAAAAAAAAQAAEAAAAEAAEAAAAAAAAAA=</HashCode>
+      <FileName>Assets\AIBrain.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
