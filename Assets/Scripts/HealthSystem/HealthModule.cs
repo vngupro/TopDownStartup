@@ -1,4 +1,3 @@
-using NaughtyAttributes;
 using System;
 using UnityEngine;
 
@@ -24,6 +23,10 @@ public class HealthModule : MonoBehaviour
     [SerializeField] private int _initHealth;
     private float _health;
 
+    private void Awake()
+    {
+        _health = _initHealth;
+    }
     public void ApplyDamage(float f)
     {
         _health -= f;
@@ -40,9 +43,16 @@ public class HealthModule : MonoBehaviour
         Healed?.Invoke(f);
     }
 
-    [Button]
-    public void CheatApply1Damage()
+    private void Reset()
     {
-        ApplyDamage(1);
+        _initHealth = 100;
+    }
+    
+    public void ResetModule()
+    {
+        _health = _initHealth;
+        Died = null;
+        Damaged = null;
+        Healed = null;
     }
 }
