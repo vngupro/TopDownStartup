@@ -45,8 +45,12 @@ public class HealthModule : MonoBehaviour
 
     private void Reset()
     {
-        
         _initHealth = 100;
+    }
+    
+    public void ResetModule()
+    {
+        _health = _initHealth;
         Died = null;
         Damaged = null;
         Healed = null;
