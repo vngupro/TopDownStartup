@@ -24,6 +24,10 @@ public class DataPersistenceManager : MonoBehaviour
         Instance = this;
     }
 
+    private void Reset()
+    {
+        fileName = "save.sav";
+    }
     public void Start()
     {
         dataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
