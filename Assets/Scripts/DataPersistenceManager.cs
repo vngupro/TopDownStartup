@@ -6,7 +6,7 @@ using System.Linq;
 public class DataPersistenceManager : MonoBehaviour
 {
     [Header("File Storage Config")]
-    [SerializeField] private string fileName;
+    [SerializeField] private string fileName = "save.sav";
 
     public static DataPersistenceManager Instance { get; private set; }
     public List<IDataPersistence> dataPersistences = new List<IDataPersistence>();
