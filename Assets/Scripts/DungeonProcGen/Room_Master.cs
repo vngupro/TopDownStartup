@@ -10,14 +10,29 @@ public class Room_Master : MonoBehaviour
 {
     [SerializeField] private GameObject _tileSprite;
 
-
-    public List<Room> _rooms = new List<Room>();
-
-    public Room Generate(Vector2 size, Vector2 center, Vector2 start)
+    public GameObject TileSprite
     {
-        Debug.Log(size);
-        GameObject roomGo = new GameObject(center.ToString());
-        roomGo.transform.position = center;
+        get => _tileSprite;
+    }
+
+    public Room Generate(Rect rect)
+    {
+        GameObject roomGo = new GameObject(rect.position.ToString());
+        roomGo.transform.position = rect.position;
+
+        for (int x = (int)rect.x; x < rect.xMax; ++x)
+        {
+            for (int y = (int)rect.y; y < rect.yMax; ++y)
+            {
+                GameObject tile = Instantiate(_tileSprite, new Vector3(x, y, 0), Quaternion.identity);
+                tile.transform.parent = roomGo.transform;
+            }
+        }
+
+        Room room = new Room(rect, roomGo);
+        return room;
+        
+        /*
         Vector2 startPos = Vector2.zero + new Vector2(Mathf.RoundToInt(start.x) - 0.5f, Mathf.RoundToInt(start.y) - 0.5f);
         Vector2 currPos = startPos;
         for (int i = 0; i < size.x; i++)
@@ -34,17 +49,17 @@ public class Room_Master : MonoBehaviour
             currPos.x++;
         }
 
-        Room room = new Room(size, center, roomGo);
+        Room room = new Room(_rect, roomGo);
         _rooms.Add(room);
         return room;
+        */
     }
 }
 
 
 public class Room
 {
-    private Vector2 _size;
-    private Vector2 _center;
+    private Rect _rect;
     private GameObject _render;
 
     public GameObject Render
@@ -52,10 +67,14 @@ public class Room
         get => _render;
     }
 
-    public Room(Vector2 size, Vector2 center, GameObject render)
+    public Rect Rect
     {
-        _size = size;
-        _center = center;
+        get => _rect;
+    }
+
+    public Room(Rect rect, GameObject render)
+    {
+        _rect = rect;
         _render = render;
     }
 }

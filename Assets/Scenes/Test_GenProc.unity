@@ -268,7 +268,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1548001777}
-  - component: {fileID: 1548001776}
   - component: {fileID: 1548001778}
   - component: {fileID: 1548001779}
   m_Layer: 0
@@ -278,22 +277,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1548001776
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1548001775}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b97f989ec112644eb3a13739f753746, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _floorSize: {x: 100, y: 100}
-  _maxDivision: 4
-  _splitStop: 28
-  _minRoomSize: {x: 2, y: 2}
 --- !u!4 &1548001777
 Transform:
   m_ObjectHideFlags: 0
@@ -334,8 +317,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ec11c7f7b56511469995b595964a98b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _floorSize: {x: 100, y: 100}
+  _floorSize: {x: 20, y: 20}
   _maxDivision: 4
-  _splitStop: 76
-  _minRoomSize: {x: 2, y: 2}
+  _splitStop: 7
   _maxDrift: {x: 5, y: 5}
+  _minRoomSize: 6
+  _maxRoomSize: 10

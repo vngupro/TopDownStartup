@@ -158,7 +158,7 @@ public class BSPpartition
             Vector2 startVec = new Vector2(center.x - (_extents.x / 2), center.y + (_extents.y / 2));
             Vector2 genVec = new Vector2(center.x - _extents.x, center.y + _extents.y);
 
-            _room = _roomMaster.Generate(sizeRound, genVec, startVec);
+            //room = _roomMaster.Generate(sizeRound, genVec, startVec);
 
             return;
         }
