@@ -2,9 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using NaughtyAttributes;
+using System;
 
 public class DataPersistenceManager : MonoBehaviour
 {
+    public event Action OnNewGame;
+
     [Header("File Storage Config")]
     [SerializeField] private string fileName = "save.sav";
 
@@ -24,6 +28,10 @@ public class DataPersistenceManager : MonoBehaviour
         Instance = this;
     }
 
+    private void Reset()
+    {
+        fileName = "save.sav";
+    }
     public void Start()
     {
         dataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
@@ -31,9 +39,11 @@ public class DataPersistenceManager : MonoBehaviour
         LoadGame();
     }
 
+    [Button]
     public void NewGame()
     {
         gameData = new GameData();
+        OnNewGame?.Invoke();
     }
 
     public void SaveGame()
@@ -75,4 +85,5 @@ public class DataPersistenceManager : MonoBehaviour
         IEnumerable<IDataPersistence> dataPersistencesObjects = FindObjectsOfType<MonoBehaviour>().OfType<IDataPersistence>();
         return new List<IDataPersistence>(dataPersistencesObjects);
     }
+
 }

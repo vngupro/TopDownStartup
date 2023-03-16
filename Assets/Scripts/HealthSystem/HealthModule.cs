@@ -1,3 +1,4 @@
+using NaughtyAttributes;
 using System;
 using UnityEngine;
 
@@ -54,5 +55,11 @@ public class HealthModule : MonoBehaviour
         Died = null;
         Damaged = null;
         Healed = null;
+    }
+
+    [Button]
+    public void CheatApply1Damage()
+    {
+        ApplyDamage(1.0f);
     }
 }
