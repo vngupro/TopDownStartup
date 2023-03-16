@@ -11,13 +11,17 @@ public sealed class Player : MonoBehaviour
     [Space]
     [SerializeField] private float _speed = 1;
 
+    private Vector2 _input;
+
     private void Update()
     {
-        var hInput = Input.GetAxis(InputUtils.AXIS_HORIZONTAL);
-        var vInput = Input.GetAxis(InputUtils.AXIS_VERTICAL);
-
-        _rb.velocity = new Vector2(hInput, vInput);
+        _input = new Vector2(
+            Input.GetAxisRaw(InputUtils.AXIS_HORIZONTAL),
+            Input.GetAxisRaw(InputUtils.AXIS_VERTICAL)
+        );
     }
+
+    private void FixedUpdate() => _rb.velocity = _speed * _input;
 
     private void Reset()
     {
