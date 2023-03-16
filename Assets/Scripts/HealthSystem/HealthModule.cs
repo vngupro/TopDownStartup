@@ -22,6 +22,11 @@ public class HealthModule : MonoBehaviour
 
     [SerializeField] private int _initHealth;
     private float _health;
+
+    private void Awake()
+    {
+        _health = _initHealth;
+    }
     public void ApplyDamage(float f)
     {
         _health -= f;
@@ -36,5 +41,14 @@ public class HealthModule : MonoBehaviour
     {
         _health = Mathf.Clamp(_health + f, _health, _initHealth);
         Healed?.Invoke(f);
+    }
+
+    private void Reset()
+    {
+        
+        _initHealth = 100;
+        Died = null;
+        Damaged = null;
+        Healed = null;
     }
 }
