@@ -3,13 +3,15 @@ using Utils;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(HealthModule))]
+[RequireComponent(typeof(ShootModule))]
 public sealed class Player : MonoBehaviour
 {
     [SerializeField] private Rigidbody _rb;
     [Space]
     [SerializeField] private HealthModule _healthModule;
+    [SerializeField] private ShootModule _shootModule;
     [Space]
-    [SerializeField] private float _speed = 1;
+    [SerializeField] private float _speed = 10;
 
     private Vector2 _input;
 
@@ -27,5 +29,6 @@ public sealed class Player : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody>();
         _healthModule = GetComponent<HealthModule>();
+        _shootModule = GetComponent<ShootModule>();
     }
 }
