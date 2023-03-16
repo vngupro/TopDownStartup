@@ -1,13 +1,33 @@
+using NaughtyAttributes;
 using System;
 using UnityEngine;
 
 public class HealthModule : MonoBehaviour
 {
+    /// <summary>
+    /// Bind to add desired effects to Damage, Call ApplyDamage(float) when you want to Apply Damage.
+    /// Died is invoked when _health <= 0 automatically when applying damage.
+    /// Don't forget to unbind (-=) 
+    /// </summary>
     public event Action<float> Damaged;
+    /// <summary>
+    /// Bind to add desired effects to Heal, Call ApplyHeal(float) when you want to Apply Heal.
+    /// Don't forget to unbind (-=) 
+    /// </summary>
+    public event Action<float> Healed;
+    /// <summary>
+    /// Bind (+=) to add desired effects to Died, Call ApplyHeal(float) when you want to Apply Heal.
+    /// Don't forget to unbind (-=) 
+    /// </summary>
     public event Action Died;
 
     [SerializeField] private int _initHealth;
     private float _health;
+
+    private void Awake()
+    {
+        _health = _initHealth;
+    }
     public void ApplyDamage(float f)
     {
         _health -= f;
@@ -16,5 +36,30 @@ public class HealthModule : MonoBehaviour
         {
             Died?.Invoke();
         }
+    }
+
+    public void ApplyHeal(float f)
+    {
+        _health = Mathf.Clamp(_health + f, _health, _initHealth);
+        Healed?.Invoke(f);
+    }
+
+    private void Reset()
+    {
+        _initHealth = 100;
+    }
+    
+    public void ResetModule()
+    {
+        _health = _initHealth;
+        Died = null;
+        Damaged = null;
+        Healed = null;
+    }
+
+    [Button]
+    public void CheatApply1Damage()
+    {
+        ApplyDamage(1.0f);
     }
 }
