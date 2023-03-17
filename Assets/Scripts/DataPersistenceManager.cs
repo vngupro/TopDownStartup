@@ -15,8 +15,8 @@ public class DataPersistenceManager : MonoBehaviour
     public static DataPersistenceManager Instance { get; private set; }
     public List<IDataPersistence> dataPersistences = new List<IDataPersistence>();
 
-    private GameData gameData;
-    private FileDataHandler dataHandler;
+    private GameData _gameData;
+    private FileDataHandler _dataHandler;
     private void Awake()
     {
         if(Instance != null)
@@ -34,15 +34,15 @@ public class DataPersistenceManager : MonoBehaviour
     }
     public void Start()
     {
-        dataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
-        dataPersistences = FindAllDataPersistenceObjects();
+        _dataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
+        //dataPersistences = FindAllDataPersistenceObjects();
         LoadGame();
     }
 
     [Button]
     public void NewGame()
     {
-        gameData = new GameData();
+        _gameData = new GameData();
         OnNewGame?.Invoke();
     }
 
@@ -51,18 +51,18 @@ public class DataPersistenceManager : MonoBehaviour
         // pass the data to other scripts so they can update it
         foreach (IDataPersistence dataPersistence in dataPersistences) 
         {
-            dataPersistence.SaveData(ref gameData);
+            dataPersistence.SaveData(ref _gameData);
         }
 
         // save that data to a file using the data handler
-        dataHandler.Save(gameData);
+        _dataHandler.Save(_gameData);
     }
 
     public void LoadGame()
     {
-        gameData = dataHandler.Load();
+        _gameData = _dataHandler.Load();
         // if no data cna be loaded, initialize to a new game
-        if (gameData == null)
+        if (_gameData == null)
         {
             Debug.Log("No data was found. Initializing data to defaults.");
             NewGame();
@@ -71,7 +71,7 @@ public class DataPersistenceManager : MonoBehaviour
         // pass the data to other scripts so they can update it
         foreach (IDataPersistence dataPersistence in dataPersistences)
         {
-            dataPersistence.LoadData(gameData);
+            dataPersistence.LoadData(_gameData);
         }
     }
 
@@ -80,6 +80,10 @@ public class DataPersistenceManager : MonoBehaviour
         SaveGame();
     }
 
+    public void Subscribe(IDataPersistence dataPersistence)
+    {
+        dataPersistences.Add(dataPersistence);
+    }
     private List<IDataPersistence> FindAllDataPersistenceObjects()
     {
         IEnumerable<IDataPersistence> dataPersistencesObjects = FindObjectsOfType<MonoBehaviour>().OfType<IDataPersistence>();

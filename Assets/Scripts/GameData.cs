@@ -11,6 +11,6 @@ public class GameData
     // the game starts with when there's no data to load
     public GameData()
     {
-        this.deathCount = 0;
+        deathCount = 0;
     }
 }
