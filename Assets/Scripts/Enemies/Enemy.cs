@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class Enemy : MonoBehaviour
 {
@@ -32,7 +31,7 @@ public class Enemy : MonoBehaviour
         transform.position = spawnPoint;
         
         // reset health module
-        // health, events
+        _healthModule.ResetModule();
         
         _healthModule.Died += Death;
     }
@@ -59,7 +58,7 @@ public class Enemy : MonoBehaviour
         }
         
         // End his own life
-        //_healthModule.ApplyDamage(_healthModule.CurrentLife);
+        _healthModule.ApplyDamage(_healthModule.Health);
     }
 
     private void Death()
