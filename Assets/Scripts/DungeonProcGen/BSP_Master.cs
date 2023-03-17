@@ -1,8 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Reflection;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Tilemaps;
 using Color = UnityEngine.Color;
 
 [RequireComponent(typeof(Room_Master))]
@@ -11,24 +14,19 @@ public class BSP_Master : MonoBehaviour
     [SerializeField] private Vector2Int _floorSize;
     [SerializeField] private int _maxDivision;
     [SerializeField][Range(0, 100)] private int _splitStop;
-    [SerializeField] private Vector2 _maxDrift;
     [SerializeField] private int _minRoomSize;
     [SerializeField] private int _maxRoomSize;
 
-
+    public GameObject test;
 
     private Room_Master _roomMaster;
     
     private Node _root;
 
+
     public int MaxDivision
     {
         get => _maxDivision;
-    }
-
-    public Vector2 MaxDrift
-    {
-        get => _maxDrift;
     }
 
     public int MinRoomSize
@@ -48,17 +46,45 @@ public class BSP_Master : MonoBehaviour
 
     void Start()
     {
-        _roomMaster = GetComponent<Room_Master>();
-        _root = new Node(null, new Rect(0, 0, _floorSize.x, _floorSize.y), 0, this);
-        GenerateBSPNode(_root);
-        _root.CreateRoom();
+        Init();
     }
 
     void Update()
     {
         _root.DebugDraw(true, Color.white);
 
-        if (Input.GetKeyDown(KeyCode.Space)) Reset();
+        if (Input.GetKeyDown(KeyCode.Space)) ResetBSP();
+
+        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        test.transform.position = mousePosition;
+
+        Collider2D col = Physics2D.OverlapBox(test.transform.position, new Vector2(0.25f, 0.25f), 0);
+        Debug.Log(col?.name);
+    }
+
+    void Init()
+    {
+#if UNITY_EDITOR
+        var assembly = Assembly.GetAssembly(typeof(UnityEditor.Editor));
+        var type = assembly.GetType("UnityEditor.LogEntries");
+        var method = type.GetMethod("Clear");
+        method.Invoke(new object(), null);
+#endif
+
+        _roomMaster = GetComponent<Room_Master>();
+        _root = new Node(null, new Rect(0, 0, _floorSize.x, _floorSize.y), 0, this);
+        GenerateBSPNode(_root);
+        _root.CreateRoom();
+        GenerateCorridors(_root);
+
+        float w = _root.Rect.width;
+        float h = _root.Rect.width;
+        float x = _root.Rect.center.x;
+        float y = _root.Rect.center.y;
+
+        Camera.main.transform.position = new Vector3(x, y, -10f);
+
+        Camera.main.orthographicSize = ((w > h * Camera.main.aspect) ? (float)w / (float)Camera.main.pixelWidth * Camera.main.pixelHeight : h) / 2;
     }
 
     void GenerateBSPNode(Node node)
@@ -74,14 +100,60 @@ public class BSP_Master : MonoBehaviour
                 }
             }
         }
+        
     }
 
-    void Reset()
+
+    void CreateCorridors(Node node)
+    {
+        if(_root.LeftChild == null) return;
+
+        if (!node.IsLeaf)
+        {
+            if (node.LeftChild.IsLeaf && node.RightChild.IsLeaf) node.CreateCorridors(node.LeftChild, node.RightChild);
+            else
+            {
+                CreateCorridors(node.LeftChild);
+                CreateCorridors(node.RightChild);
+            }
+        }
+    }
+
+
+    void GenerateCorridors(Node node)
+    {
+        if (node == null) return;
+
+        GenerateCorridors(node.LeftChild);
+        GenerateCorridors(node.RightChild);
+
+        foreach (Rect corr in node.Corridors)
+        {
+            for (int i = (int)corr.x; i < corr.xMax; ++i)
+            {
+                for (int j = (int)corr.y; j < corr.yMax; ++j)
+                {
+                    GameObject obj = Instantiate(_roomMaster.CorridorSprite, new Vector3(i, j, 0f), Quaternion.identity);
+                    obj.GetComponent<SpriteRenderer>().sprite = _roomMaster.CorridorTilesSpr[Random.Range(0, _roomMaster.CorridorTilesSpr.Count)];
+                    obj.GetComponent<SpriteRenderer>().sortingOrder = -1;
+                    obj.transform.parent = transform;
+                }
+            }
+        }
+    }
+
+    void ResetBSP()
     {
         EraseNode(_root);
-        _root = new Node(null, new Rect(0, 0, _floorSize.x, _floorSize.y), 0, this);
-        GenerateBSPNode(_root);
-        _root.CreateRoom();
+
+        foreach (Transform child in transform)
+        {
+            Destroy(child.gameObject);
+        }
+
+        Room_Master.HasStairs = false;
+
+        Init();
     }
 
     void EraseNode(Node node)
@@ -115,7 +187,13 @@ public class BSP_Master : MonoBehaviour
 
 class Node
 {
+    #region Variables
+
     private Node _parent;
+    public Node Parent
+    {
+        get => _parent;
+    }
 
     private Node _leftChild;
     public Node LeftChild
@@ -130,6 +208,12 @@ class Node
 
     }
 
+    private bool _isLeaf;
+    public bool IsLeaf
+    {
+        get => _isLeaf;
+    }
+
     private Rect _rect;
     public Rect Rect
     {
@@ -142,11 +226,18 @@ class Node
     private BSP_Master _master;
 
     private Room _room;
-    public Room Room 
+    public Room Room
     {
         get => _room;
-        set => _room = value;    
+        set => _room = value;
     }
+
+    private List<Rect> _corridors = new List<Rect>();
+    public List<Rect> Corridors
+    {
+        get => _corridors;
+    }
+
 
     private enum SplitOrientation
     {
@@ -155,6 +246,10 @@ class Node
     }
 
     private SplitOrientation _nodeSplit;
+
+    #endregion
+
+
 
     public Node(Node parent, Rect rect, int depth, BSP_Master master)
     {
@@ -201,23 +296,6 @@ class Node
             
             _leftChild = new Node(this, new Rect(_rect.x, _rect.y, _rect.width, splitDrift), newDepth, _master);
             _rightChild = new Node(this, new Rect(_rect.x, _rect.y + splitDrift, _rect.width, _rect.height - splitDrift), newDepth, _master);
-            
-            
-            /*
-            float drift = Random.Range(-_master.MaxDrift.x, _master.MaxDrift.x);
-
-            Vector2 leftCenter = new Vector2(_center.x - (_extents.x / 2) + drift, _center.y);
-            Vector2 rightCenter = new Vector2(_center.x + (_extents.x / 2) + drift, _center.y);
-
-            Vector2 leftSize = new Vector2(_extents.x + (drift * 2), _extents.y * 2);
-            Vector2 rightSize = new Vector2(_extents.x - (drift * 2), _extents.y * 2);
-
-            //Debug.Log("V Left size: " + leftSize);
-            //Debug.Log("V Right size: " + rightSize);
-
-            _leftChild = new Node(this, leftCenter, leftSize, newDepth, _master);
-            _rightChild = new Node(this, rightCenter, rightSize, newDepth, _master);
-            */
         }
         else
         {
@@ -226,24 +304,7 @@ class Node
             
             _leftChild = new Node(this, new Rect(_rect.x, _rect.y, splitDrift, _rect.height), newDepth, _master);
             _rightChild = new Node(this, new Rect(_rect.x + splitDrift, _rect.y, _rect.width - splitDrift, _rect.height), newDepth, _master);
-
-            /*
-            float drift = Random.Range(-_master.MaxDrift.y, _master.MaxDrift.y);
-
-            Vector2 leftCenter = new Vector2(_center.x, _center.y - (_extents.y / 2) + drift);
-            Vector2 rightCenter = new Vector2(_center.x, _center.y + (_extents.y / 2) + drift);
-
-            Vector2 leftSize = new Vector2(_extents.x * 2, _extents.y + (drift * 2));
-            Vector2 rightSize = new Vector2(_extents.x * 2, _extents.y - (drift * 2));
-
-            //Debug.Log("H Left size: " + leftSize);
-            //Debug.Log("H Right size: " + rightSize);
-
-            _leftChild = new Node(this, leftCenter, leftSize, newDepth, _master);
-            _rightChild = new Node(this, rightCenter, rightSize, newDepth, _master);
-            */
         }
-
         return true;
     }
 
@@ -253,16 +314,120 @@ class Node
 
         if (_rightChild != null) _rightChild.CreateRoom();
 
+        if (_leftChild != null && _rightChild != null) CreateCorridors(_leftChild, _rightChild);
+
         if (_leftChild == null && _rightChild == null)
         {
             int roomWidth = (int)Random.Range(_rect.width / 2, _rect.width - 2);
-            int roomHeight = (int)Random.Range(_rect.width / 2, _rect.width - 2);
+            int roomHeight = (int)Random.Range(_rect.height / 2, _rect.height - 2);
             int roomPosX = (int)Random.Range(1, _rect.width - roomWidth - 1);
             int roomPosY = (int)Random.Range(1, _rect.height - roomHeight - 1);
 
             Rect rect = new Rect(_rect.x + roomPosX, _rect.y + roomPosY, roomWidth, roomHeight);
             _room = _master.RoomMaster.Generate(rect);
+            _isLeaf = true;
         }     
+    }
+
+    public Rect GetRoom()
+    {
+        if (_isLeaf)
+        {
+            return _room.Rect;
+        }
+        if (_leftChild != null)
+        {
+            Rect leftRoom = _leftChild.GetRoom();
+            if (leftRoom.x != -1)
+            {
+                return leftRoom;
+            }
+        }
+        if (_rightChild != null)
+        {
+            Rect rightRoom = _rightChild.GetRoom();
+            if (rightRoom.x != -1)
+            {
+                return rightRoom;
+            }
+        }
+
+        // workaround non nullable structs
+        return new Rect(-1, -1, 0, 0);
+    }
+
+    public void CreateCorridors(Node left, Node right)
+    {
+        
+        Rect lroom = left.GetRoom();
+        Rect rroom = right.GetRoom();
+
+
+        // attach the corridor to a random point in each room
+        Vector2 lpoint = new Vector2((int)Random.Range(lroom.x + 1, lroom.xMax - 1), (int)Random.Range(lroom.y + 1, lroom.yMax - 1));
+        Vector2 rpoint = new Vector2((int)Random.Range(rroom.x + 1, rroom.xMax - 1), (int)Random.Range(rroom.y + 1, rroom.yMax - 1));
+
+        // always be sure that left point is on the left to simplify the code
+        if (lpoint.x > rpoint.x)
+        {
+            Vector2 temp = lpoint;
+            lpoint = rpoint;
+            rpoint = temp;
+        }
+
+        int w = (int)(lpoint.x - rpoint.x);
+        int h = (int)(lpoint.y - rpoint.y);
+
+
+        // if the points are not aligned horizontally
+        if (w != 0)
+        {
+            // choose at random to go horizontal then vertical or the opposite
+            if (Random.Range(0, 1) > 2)
+            {
+                // add a corridor to the right
+                _corridors.Add(new Rect(lpoint.x, lpoint.y, Mathf.Abs(w) + 1, 1));
+
+                // if left point is below right point go up
+                // otherwise go down
+                if (h < 0)
+                {
+                    _corridors.Add(new Rect(rpoint.x, lpoint.y, 1, Mathf.Abs(h)));
+                }
+                else
+                {
+                    _corridors.Add(new Rect(rpoint.x, lpoint.y, 1, -Mathf.Abs(h)));
+                }
+            }
+            else
+            {
+                // go up or down
+                if (h < 0)
+                {
+                    _corridors.Add(new Rect(lpoint.x, lpoint.y, 1, Mathf.Abs(h)));
+                }
+                else
+                {
+                    _corridors.Add(new Rect(lpoint.x, rpoint.y, 1, Mathf.Abs(h)));
+                }
+
+                // then go right
+                _corridors.Add(new Rect(lpoint.x, rpoint.y, Mathf.Abs(w) + 1, 1));
+            }
+        }
+        else
+        {
+            // if the points are aligned horizontally
+            // go up or down depending on the positions
+            if (h < 0)
+            {
+                _corridors.Add(new Rect((int)lpoint.x, (int)lpoint.y, 1, Mathf.Abs(h)));
+            }
+            else
+            {
+                _corridors.Add(new Rect((int)rpoint.x, (int)rpoint.y, 1, Mathf.Abs(h)));
+            }
+        }
     }
 
     public void DebugDraw(bool drawChilds, Color drawColor)

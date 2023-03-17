@@ -4,15 +4,38 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditorInternal;
 using UnityEngine.PlayerLoop;
+using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
 
 public class Room_Master : MonoBehaviour
 {
+    [SerializeField] private List<Sprite> _roomTilesSpr = new List<Sprite>();
+    [SerializeField] private List<Sprite> _corridorTilesSpr = new List<Sprite>();
     [SerializeField] private GameObject _tileSprite;
+    [SerializeField] private GameObject _corridorSprite;
+    [SerializeField] private GameObject _Stairs;
+
+    private static bool _hasStairs = false;
+
+    public static bool HasStairs
+    {
+        get => _hasStairs;
+        set => _hasStairs = value;
+    }
 
     public GameObject TileSprite
     {
         get => _tileSprite;
+    }
+
+    public GameObject CorridorSprite
+    {
+        get => _corridorSprite;
+    }
+
+    public List<Sprite> CorridorTilesSpr
+    {
+        get => _corridorTilesSpr;
     }
 
     public Room Generate(Rect rect)
@@ -25,35 +48,23 @@ public class Room_Master : MonoBehaviour
             for (int y = (int)rect.y; y < rect.yMax; ++y)
             {
                 GameObject tile = Instantiate(_tileSprite, new Vector3(x, y, 0), Quaternion.identity);
+                tile.GetComponent<SpriteRenderer>().sprite = _roomTilesSpr[Random.Range(0, _roomTilesSpr.Count)];
                 tile.transform.parent = roomGo.transform;
+                if (!_hasStairs && Random.Range(0f, 100f) < 20f)
+                {
+                    _hasStairs = true;
+                    GameObject stairsGo = Instantiate(_Stairs, new Vector3(x, y, 0), Quaternion.identity);
+                    stairsGo.transform.parent = roomGo.transform;
+                    stairsGo.GetComponent<SpriteRenderer>().sortingOrder = 1;
+                }
+
             }
         }
 
         Room room = new Room(rect, roomGo);
         return room;
-        
-        /*
-        Vector2 startPos = Vector2.zero + new Vector2(Mathf.RoundToInt(start.x) - 0.5f, Mathf.RoundToInt(start.y) - 0.5f);
-        Vector2 currPos = startPos;
-        for (int i = 0; i < size.x; i++)
-        {
-            for (int j = 0; j < size.y; j++)
-            {
-                GameObject tile = Instantiate(_tileSprite);
-                tile.transform.parent = roomGo.transform;
-                tile.transform.position = currPos;
-                currPos.y--;
-            }
-
-            currPos.y = startPos.y;
-            currPos.x++;
-        }
-
-        Room room = new Room(_rect, roomGo);
-        _rooms.Add(room);
-        return room;
-        */
     }
+
 }
 
 
