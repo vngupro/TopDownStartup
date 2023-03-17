@@ -1,5 +1,5 @@
 using UnityEngine;
 
-public sealed class ShootModule : MonoBehaviour
+internal sealed class ShootModule : MonoBehaviour
 {
 }
