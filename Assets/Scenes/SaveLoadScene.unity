@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b520d6c2d87fd154c85091ac21bb1cbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fileName: save.sav
+  fileName: save3.sav
 --- !u!4 &11304899
 Transform:
   m_ObjectHideFlags: 0
@@ -862,9 +862,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 425055176}
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8773001925376712554, guid: 2df86fa74086f61438657ca74d61d5da, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1824144451}
     - targetCorrespondingSourceObject: {fileID: 2610850215357056001, guid: 2df86fa74086f61438657ca74d61d5da, type: 3}
       insertIndex: -1
       addedObject: {fileID: 439669763}
@@ -62312,8 +62309,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70fb49bef9d49dc459d7525ad9818aa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerHealthModule: {fileID: 1824144451}
-  dataPersistenceManager: {fileID: 11304898}
+  playerHealthModule: {fileID: 1824144454}
 --- !u!1 &1794356289
 GameObject:
   m_ObjectHideFlags: 0
@@ -62503,24 +62499,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1809586504}
   m_CullTransparentMesh: 1
---- !u!1 &1824144450 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8773001925376712554, guid: 2df86fa74086f61438657ca74d61d5da, type: 3}
+--- !u!114 &1824144454 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5412878782761273416, guid: 2df86fa74086f61438657ca74d61d5da, type: 3}
   m_PrefabInstance: {fileID: 439669761}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1824144451
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1824144450}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d93166c34b9124f47a179dc666795c57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _initHealth: 0
 --- !u!1 &1984622670
 GameObject:
   m_ObjectHideFlags: 0
@@ -63105,7 +63094,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!43 &2126435036
+--- !u!43 &2118416973
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
