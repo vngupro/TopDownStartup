@@ -6,6 +6,7 @@ using UnityEngine;
 public class EntityAnimator : MonoBehaviour
 {
     [SerializeField, Required, BoxGroup("Dependencies")] Animator _animator;
+
     [SerializeField, Required, BoxGroup("Dependencies")] EntityMovement _movement;
     [SerializeField, Required, BoxGroup("Dependencies")] EntityAttack _attack;
 

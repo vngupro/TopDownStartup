@@ -89,7 +89,7 @@ AnimationClip:
     - time: 1.875
       value: {fileID: -2314881741425692056, guid: 368ecf942892d014fb47d70072cf8ad7, type: 3}
     attribute: m_Sprite
-    path: Shadow
+    path: Shadowz
     classID: 212
     script: {fileID: 0}
   m_SampleRate: 8
@@ -107,7 +107,7 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     - serializedVersion: 2
-      path: 1926924059
+      path: 3905250500
       attribute: 0
       script: {fileID: 0}
       typeID: 212

@@ -16,10 +16,15 @@ public class AttackZone : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.TryGetComponent<IHealth>(out var h))
+        if(collision.TryGetComponent(out IHealth h))
         {
             _inZone.Add(h);
         }
+        else
+        {
+
+        }
+
     }
 
     private void OnTriggerExit2D(Collider2D collision)

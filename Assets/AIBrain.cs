@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class AIBrain : MonoBehaviour
 {
-    [SerializeField, BoxGroup("Special Dependency")] Entity _playerEntity;
+    [SerializeField, BoxGroup("Special Dependency")] PlayerReference _playerEntity;
 
     [SerializeField, BoxGroup("Dependencies")] Entity _root;
     [SerializeField, BoxGroup("Dependencies")] EntityMovement _movement;
@@ -14,8 +14,8 @@ public class AIBrain : MonoBehaviour
     [SerializeField, BoxGroup("Conf")] float _distanceDetection;
     [SerializeField, BoxGroup("Conf")] float _stopDistance;
 
-    bool IsPlayerNear => Vector3.Distance(_root.transform.position, _playerEntity.transform.position) < _distanceDetection;
-    bool IsPlayerTooNear => Vector3.Distance(_root.transform.position, _playerEntity.transform.position) < _stopDistance;
+    bool IsPlayerNear => Vector3.Distance(_root.transform.position, _playerEntity.Instance.transform.position) < _distanceDetection;
+    bool IsPlayerTooNear => Vector3.Distance(_root.transform.position, _playerEntity.Instance.transform.position) < _stopDistance;
 
     #region EDITOR
 #if UNITY_EDITOR
@@ -49,14 +49,13 @@ public class AIBrain : MonoBehaviour
         // Move To Player
         else if (IsPlayerNear)
         {
-            _movement.MoveToward(_playerEntity.transform);
+            _movement.MoveToward(_playerEntity.Instance.transform);
         }
         // Stay idle
         else
         {
             _movement.Move(Vector2.zero);
         }
-
     }
 
 
