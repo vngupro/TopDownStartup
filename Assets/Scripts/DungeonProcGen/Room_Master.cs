@@ -9,34 +9,19 @@ using Random = UnityEngine.Random;
 
 public class Room_Master : MonoBehaviour
 {
-    [SerializeField] private List<Sprite> _roomTilesSpr = new List<Sprite>();
+    [SerializeField] private List<Sprite> _roomTilesSpr     = new List<Sprite>();
     [SerializeField] private List<Sprite> _corridorTilesSpr = new List<Sprite>();
-    [SerializeField] private GameObject _tileSprite;
-    [SerializeField] private GameObject _corridorSprite;
-    [SerializeField] private GameObject _Stairs;
+    [SerializeField] private GameObject   _tileSprite;
+    [SerializeField] private GameObject   _corridorSprite;
+    [SerializeField] private GameObject   _stairs;
 
-    private static bool _hasStairs = false;
+    public GameObject TileSprite => _tileSprite;
 
-    public static bool HasStairs
-    {
-        get => _hasStairs;
-        set => _hasStairs = value;
-    }
+    public GameObject CorridorSprite => _corridorSprite;
 
-    public GameObject TileSprite
-    {
-        get => _tileSprite;
-    }
+    public List<Sprite> CorridorTilesSpr => _corridorTilesSpr;
 
-    public GameObject CorridorSprite
-    {
-        get => _corridorSprite;
-    }
-
-    public List<Sprite> CorridorTilesSpr
-    {
-        get => _corridorTilesSpr;
-    }
+    public GameObject Stairs => _stairs;
 
     public Room Generate(Rect rect)
     {
@@ -50,14 +35,6 @@ public class Room_Master : MonoBehaviour
                 GameObject tile = Instantiate(_tileSprite, new Vector3(x, y, 0), Quaternion.identity);
                 tile.GetComponent<SpriteRenderer>().sprite = _roomTilesSpr[Random.Range(0, _roomTilesSpr.Count)];
                 tile.transform.parent = roomGo.transform;
-                if (!_hasStairs && Random.Range(0f, 100f) < 20f)
-                {
-                    _hasStairs = true;
-                    GameObject stairsGo = Instantiate(_Stairs, new Vector3(x, y, 0), Quaternion.identity);
-                    stairsGo.transform.parent = roomGo.transform;
-                    stairsGo.GetComponent<SpriteRenderer>().sortingOrder = 1;
-                }
-
             }
         }
 
@@ -67,25 +44,3 @@ public class Room_Master : MonoBehaviour
 
 }
 
-
-public class Room
-{
-    private Rect _rect;
-    private GameObject _render;
-
-    public GameObject Render
-    {
-        get => _render;
-    }
-
-    public Rect Rect
-    {
-        get => _rect;
-    }
-
-    public Room(Rect rect, GameObject render)
-    {
-        _rect = rect;
-        _render = render;
-    }
-}
