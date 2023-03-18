@@ -58,7 +58,7 @@ MonoBehaviour:
   - {x: 0.2958265, y: -0.2958265, z: 0}
   m_ShapePathHash: 1522865524
   m_Mesh: {fileID: 0}
-  m_InstanceId: 39456
+  m_InstanceId: 32292
   m_LocalBounds:
     m_Center: {x: -0.011600763, y: -0.10208678, z: 0}
     m_Extent: {x: 0.30742726, y: 0.19373971, z: 0}
@@ -331,7 +331,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5882509366201892112, guid: a25403db85ec5f24c86189b35f44f1a7, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5882509366201892112, guid: a25403db85ec5f24c86189b35f44f1a7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -394,6 +394,9 @@ PrefabInstance:
       addedObject: {fileID: 5412878782761273416}
     - targetCorrespondingSourceObject: {fileID: 614539736087202569, guid: a25403db85ec5f24c86189b35f44f1a7, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 1570655890629767220}
+    - targetCorrespondingSourceObject: {fileID: 614539736087202569, guid: a25403db85ec5f24c86189b35f44f1a7, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 1808327682920790900}
   m_SourcePrefab: {fileID: 100100000, guid: a25403db85ec5f24c86189b35f44f1a7, type: 3}
 --- !u!4 &6635492065594267555 stripped
@@ -425,6 +428,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rb: {fileID: 1808327682920790900}
   _healthModule: {fileID: 5412878782761273416}
+  _shootModule: {fileID: 0}
   _speed: 1
 --- !u!114 &5412878782761273416
 MonoBehaviour:
@@ -439,6 +443,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _initHealth: 100
+--- !u!114 &1570655890629767220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8773001925376712554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf77b59f9682ae1489ee91744f4fdcb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bullet: {fileID: 0}
 --- !u!54 &1808327682920790900
 Rigidbody:
   m_ObjectHideFlags: 0
