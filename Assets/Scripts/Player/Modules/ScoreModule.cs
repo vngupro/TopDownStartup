@@ -13,7 +13,7 @@ public class ScoreModule : MonoBehaviour
     }
     public void RemoveToScore(int score)
     {
-        Score -= score;
+        Score = Mathf.Clamp(Score - score, 0 , Score);
         ScoreChanged?.Invoke(Score);
     }
 }
