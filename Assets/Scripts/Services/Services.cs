@@ -35,7 +35,7 @@ internal static class Services
 
     public static Abstr Resolve<Abstr>([CallerMemberName] string caller = default) where Abstr : class
     {
-        if (caller != AUTHORIZED_CALLER && caller != ".ctor")
+        if (caller != AUTHORIZED_CALLER)
             throw new InvalidOperationException($"Must Resolve through {AUTHORIZED_CALLER}");
 
         var key = typeof(Abstr).Name;
