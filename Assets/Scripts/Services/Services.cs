@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -12,6 +13,8 @@ internal static class Services
     {
         Register<IYoService, YoService>();
     }
+
+    private const string AUTHORIZED_CALLER = "Awake";
 
     private static readonly GameObject _root = new(nameof(Services));
 
@@ -30,8 +33,11 @@ internal static class Services
         _services.Add(key, value);
     }
 
-    public static Abstr Resolve<Abstr>() where Abstr : class
+    public static Abstr Resolve<Abstr>([CallerMemberName] string caller = default) where Abstr : class
     {
+        if (caller != AUTHORIZED_CALLER)
+            throw new InvalidOperationException($"Must Resolve through {AUTHORIZED_CALLER}");
+
         var key = typeof(Abstr).Name;
 
         if (!_services.TryGetValue(key, out var value))
