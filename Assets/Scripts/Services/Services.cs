@@ -10,6 +10,9 @@ internal class Services : LifetimeScope
 
     private static IObjectResolver _container;
 
+    /// <summary>
+    /// For resolving in MonoBehaviours
+    /// </summary>
     public static T Resolve<T>([CallerMemberName] string caller = default)
     {
         if (caller != AUTHORIZED_CALLER)
