@@ -13,5 +13,5 @@ internal class CommonServices : Services
     }
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-    private static void Initialize() => new GameObject(nameof(CommonServices), typeof(CommonServices));
+    private static void Initialize() => DontDestroyOnLoad(new GameObject(nameof(CommonServices), typeof(CommonServices)));
 }

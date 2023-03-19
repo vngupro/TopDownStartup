@@ -3,14 +3,13 @@ using VContainer.Unity;
 
 internal class Services : LifetimeScope
 {
-    protected static Services _services;
+    protected static IObjectResolver _container;
 
-    public static T Resolve<T>() => _services.Container.Resolve<T>();
+    public static T Resolve<T>() => _container.Resolve<T>();
 
     protected override void Awake()
     {
         base.Awake();
-        DontDestroyOnLoad(this);
-        _services = this;
+        _container = Container;
     }
 }
