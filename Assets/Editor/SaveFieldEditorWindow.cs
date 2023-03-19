@@ -35,7 +35,7 @@ public class SaveFieldEditorWindow : EditorWindow
                 {
                     if(member.CustomAttributes.ToArray().Length > 0)
                     {
-                        SaveField attribute = member.GetCustomAttribute<SaveField>();
+                        SaveAttribute attribute = member.GetCustomAttribute<SaveAttribute>();
                         if(attribute != null)
                         {
                             Type reflectedType = member.ReflectedType;
@@ -57,7 +57,7 @@ public class SaveFieldEditorWindow : EditorWindow
         foreach (SaveFieldInfo save in savedMembers) 
         {
             MemberInfo memberInfo = save.memberInfo;
-            SaveField saveField = save.saveField;
+            SaveAttribute saveField = save.saveField;
             FieldInfo field = memberInfo as FieldInfo;
             reflectedType = memberInfo.ReflectedType;
 
@@ -74,10 +74,10 @@ public class SaveFieldEditorWindow : EditorWindow
 public struct SaveFieldInfo
 {
     public MemberInfo memberInfo;
-    public SaveField saveField;
+    public SaveAttribute saveField;
     public object obj;
 
-    public SaveFieldInfo(MemberInfo info, SaveField field, object obj)
+    public SaveFieldInfo(MemberInfo info, SaveAttribute field, object obj)
     {
         memberInfo = info;
         saveField = field;

@@ -1,9 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using NaughtyAttributes;
 using System;
+using System.Reflection;
 
 public class DataPersistenceManager : MonoBehaviour
 {
@@ -48,6 +48,32 @@ public class DataPersistenceManager : MonoBehaviour
 
     public void SaveGame()
     {
+        foreach(var el in dataPersistences.Select(i => (data:i, fields:i.GetType()
+                .GetFields(System.Reflection.BindingFlags.Instance)
+                .Where(j => j.CustomAttributes.FirstOrDefault(k => k is SaveAttribute) != null))))
+        {
+
+            foreach(FieldInfo f in el.fields)
+            {
+                //switch(f.FieldType.GetType())
+                //{
+                //    case typeof(int) intData:
+
+                //        break;
+                //}
+
+                if(f.FieldType.GetType() == typeof(int))
+                {
+
+                }
+                else if(f.FieldType.GetType() == typeof(bool))
+                {
+
+                }
+
+            }
+        }
+
         // pass the data to other scripts so they can update it
         foreach (IDataPersistence dataPersistence in dataPersistences) 
         {

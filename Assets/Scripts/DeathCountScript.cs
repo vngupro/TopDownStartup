@@ -3,9 +3,9 @@ using TMPro;
 public class DeathCountScript : MonoBehaviour, IDataPersistence
 {
     public HealthModule playerHealthModule;
+ 
+    [Save] public int deathCount = 0;
 
-
-    [SaveField] private int deathCount = 0;
     private TMP_Text deathCountText;
 
     private void Awake()
@@ -29,7 +29,7 @@ public class DeathCountScript : MonoBehaviour, IDataPersistence
 
     public void SaveData(ref GameData data)
     {
-        data.deathCount = deathCount;
+        data.ReceiveDeathCount(this);
     }
 
     public void LoadData(GameData data)
