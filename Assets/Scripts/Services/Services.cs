@@ -4,13 +4,13 @@ using VContainer.Unity;
 
 internal class Services : LifetimeScope
 {
-    private static Services _services;
+    private static IObjectResolver _container;
 
-    public static T Resolve<T>() => _services.Container.Resolve<T>();
+    public static T Resolve<T>() => _container.Resolve<T>();
 
     protected override void Configure(IContainerBuilder builder)
     {
-        _services = this;
+        builder.RegisterBuildCallback(container => _container = container);
 
         builder.UseComponents(transform, components =>
         {
