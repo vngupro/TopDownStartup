@@ -1,13 +1,9 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Reflection;
-using TMPro;
+using UnityEditor;
 using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.Tilemaps;
 using Color = UnityEngine.Color;
 using Random = UnityEngine.Random;
 
@@ -20,7 +16,10 @@ public class BSP_Master : MonoBehaviour
     [SerializeField]                private int _minRoomSize;
     [SerializeField]                private int _maxRoomSize;
 
-
+    private Vector2 _dLeft = new Vector2(-0.5f, -0.5f);
+    private Vector2 _dRight= new Vector2(0.5f, -0.5f);
+    private Vector2 _uLeft = new Vector2(-0.5f, 0.5f);
+    private Vector2 _uRight= new Vector2(0.5f, 0.5f);
 
     private Room_Master _roomMaster;
     
@@ -58,8 +57,6 @@ public class BSP_Master : MonoBehaviour
     {
         Init();
     }
-
-    
 
     void Update()
     {
@@ -150,13 +147,41 @@ public class BSP_Master : MonoBehaviour
         {
             for (int j = _floorSize.x - 1; j >= 0; --j)
             {
+                var arr = new(Vector2 pointOne, Vector2 pointTwo) [4];
+
                 if (!GetTile(j, i))
                 {
-                    GameObject col = new GameObject("Col: (" + j + ", " + i + ")");
-                    col.transform.parent = _collisionsParent.transform;
-                    col.transform.position = new Vector2(j, i);
-                    BoxCollider2D box = col.AddComponent<BoxCollider2D>();
-                    box.size = Vector2.one;
+                        
+                    if (GetTile(j, Math.Max(i - 1, 0)))                arr[0] = (_dLeft, _dRight);
+                    if (GetTile(j, Math.Min(i + 1, _floorSize.y - 1))) arr[1] = (_uLeft, _uRight);
+                    if (GetTile(Math.Min(j + 1, _floorSize.x - 1), i)) arr[2] = (_uRight, _dRight);
+                    if (GetTile(Math.Max(j - 1, 0), i))                arr[3] = (_uLeft, _dLeft);
+                        
+                }
+
+                CreateCollisions(arr, j, i);
+
+            }
+        }
+    }
+
+    void CreateCollisions((Vector2 pointOne, Vector2 pointTwo)[] arr, int X, int Y)
+    {
+        if (arr.Length > 0)
+        {
+            GameObject colGo = new GameObject("Col: (" + X + ", " + Y + ")");
+            colGo.transform.parent = _collisionsParent.transform;
+            colGo.transform.position = new Vector2(X, Y);
+            GameObject[] currentSelection = Selection.gameObjects;
+            Array.Resize(ref currentSelection, currentSelection.Length + 1);
+            currentSelection[currentSelection.Length - 1] = colGo;
+            Selection.objects = currentSelection;
+            foreach (var vecTup in arr)
+            {
+                if (!(vecTup.pointOne == Vector2.zero && vecTup.pointTwo == Vector2.zero))
+                {
+                    EdgeCollider2D col = colGo.AddComponent<EdgeCollider2D>();
+                    col.points = new Vector2[] { vecTup.pointOne, vecTup.pointTwo };
                 }
             }
         }
