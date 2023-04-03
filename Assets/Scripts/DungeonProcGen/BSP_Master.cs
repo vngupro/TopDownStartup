@@ -147,44 +147,46 @@ public class BSP_Master : MonoBehaviour
         {
             for (int j = _floorSize.x - 1; j >= 0; --j)
             {
-                var arr = new(Vector2 pointOne, Vector2 pointTwo) [4];
 
                 if (!GetTile(j, i))
                 {
-                        
+                    var arr = new(Vector2 pointOne, Vector2 pointTwo) [4];
                     if (GetTile(j, Math.Max(i - 1, 0)))                arr[0] = (_dLeft, _dRight);
                     if (GetTile(j, Math.Min(i + 1, _floorSize.y - 1))) arr[1] = (_uLeft, _uRight);
                     if (GetTile(Math.Min(j + 1, _floorSize.x - 1), i)) arr[2] = (_uRight, _dRight);
                     if (GetTile(Math.Max(j - 1, 0), i))                arr[3] = (_uLeft, _dLeft);
                         
+                    
+                    if ((arr[0] != (Vector2.zero, Vector2.zero)) || 
+                        (arr[1] != (Vector2.zero, Vector2.zero)) || 
+                        (arr[2] != (Vector2.zero, Vector2.zero)) || 
+                        (arr[3] != (Vector2.zero, Vector2.zero)))
+                        CreateCollisions(arr, j, i);
                 }
-
-                CreateCollisions(arr, j, i);
-
             }
         }
     }
 
     void CreateCollisions((Vector2 pointOne, Vector2 pointTwo)[] arr, int X, int Y)
     {
-        if (arr.Length > 0)
+        GameObject colGo = new GameObject("Col: (" + X + ", " + Y + ")");
+        colGo.transform.parent = _collisionsParent.transform;
+        colGo.transform.position = new Vector2(X, Y);
+        foreach (var vecTup in arr)
         {
-            GameObject colGo = new GameObject("Col: (" + X + ", " + Y + ")");
-            colGo.transform.parent = _collisionsParent.transform;
-            colGo.transform.position = new Vector2(X, Y);
-            GameObject[] currentSelection = Selection.gameObjects;
-            Array.Resize(ref currentSelection, currentSelection.Length + 1);
-            currentSelection[currentSelection.Length - 1] = colGo;
-            Selection.objects = currentSelection;
-            foreach (var vecTup in arr)
+            if (!(vecTup.pointOne == Vector2.zero && vecTup.pointTwo == Vector2.zero))
             {
-                if (!(vecTup.pointOne == Vector2.zero && vecTup.pointTwo == Vector2.zero))
-                {
-                    EdgeCollider2D col = colGo.AddComponent<EdgeCollider2D>();
-                    col.points = new Vector2[] { vecTup.pointOne, vecTup.pointTwo };
-                }
+                EdgeCollider2D col = colGo.AddComponent<EdgeCollider2D>();
+                col.points = new Vector2[] { vecTup.pointOne, vecTup.pointTwo };
             }
         }
+
+        SpriteRenderer sr = colGo.AddComponent<SpriteRenderer>();
+        sr.sprite = _roomMaster.WallTilesSpr[Random.Range(0, _roomMaster.WallTilesSpr.Count())];
+        // GameObject[] currentSelection = Selection.gameObjects;
+        // Array.Resize(ref currentSelection, currentSelection.Length + 1);
+        // currentSelection[currentSelection.Length - 1] = colGo;
+        // Selection.objects = currentSelection;
     }
 
     public void ResetBSP()

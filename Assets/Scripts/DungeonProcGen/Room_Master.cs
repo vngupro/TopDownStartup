@@ -11,16 +11,17 @@ public class Room_Master : MonoBehaviour
 {
     [SerializeField] private List<Sprite> _roomTilesSpr     = new List<Sprite>();
     [SerializeField] private List<Sprite> _corridorTilesSpr = new List<Sprite>();
+    [SerializeField] private List<Sprite> _wallTilesSpr     = new List<Sprite>();
     [SerializeField] private GameObject   _tileSprite;
     [SerializeField] private GameObject   _corridorSprite;
     [SerializeField] private GameObject   _stairs;
-
+    
+    
     public GameObject TileSprite => _tileSprite;
 
     public GameObject CorridorSprite => _corridorSprite;
-
     public List<Sprite> CorridorTilesSpr => _corridorTilesSpr;
-
+    public List<Sprite> WallTilesSpr => _wallTilesSpr;
     public GameObject Stairs => _stairs;
 
     public Room Generate(Rect rect)
