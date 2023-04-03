@@ -1,12 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Reflection;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Tilemaps;
 using Color = UnityEngine.Color;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Room_Master))]
 public class BSP_Master : MonoBehaviour
@@ -25,6 +28,8 @@ public class BSP_Master : MonoBehaviour
 
     private bool _hasStairs = false;
 
+    private GameObject _collisionsParent;
+
     public bool HasStairs
     {
         get => _hasStairs;
@@ -39,10 +44,22 @@ public class BSP_Master : MonoBehaviour
 
     public Room_Master RoomMaster => _roomMaster;
 
+    public List<bool> TilesArray { get; private set; }
+
+    public bool GetTile(int x, int y) => TilesArray[_floorSize.x * x + y];
+    public void SetTile(int x, int y) => TilesArray[_floorSize.x * x + y] = true;
+
+    private void Awake()
+    {
+        _collisionsParent = new GameObject("Collisions");
+    }
+
     void Start()
     {
         Init();
     }
+
+    
 
     void Update()
     {
@@ -50,10 +67,10 @@ public class BSP_Master : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space)) ResetBSP();
 
-        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        Collider2D col = Physics2D.OverlapBox(mousePosition, new Vector2(0.25f, 0.25f), 0);
-        Debug.Log(col?.name);
+        //Collider2D col = Physics2D.OverlapBox(mousePosition, new Vector2(0.25f, 0.25f), 0);
+        //Debug.Log(col?.name);
     }
 
     void Init()
@@ -64,6 +81,7 @@ public class BSP_Master : MonoBehaviour
         MethodInfo method = type.GetMethod("Clear");
         method.Invoke(new object(), null);
 #endif
+        TilesArray = Enumerable.Repeat(false, _floorSize.x * _floorSize.y).ToList();
 
         _roomMaster = GetComponent<Room_Master>();
         _root = new Node(null, new Rect(0, 0, _floorSize.x, _floorSize.y), 0, this);
@@ -71,6 +89,10 @@ public class BSP_Master : MonoBehaviour
         _root.CreateRoom();
         GenerateCorridors(_root);
         _root.GenerateStairs();
+        GenerateCollisions();
+        
+        DebugPrintRoom();
+
 
         float w = _root.Rect.width;
         float h = _root.Rect.width;
@@ -113,9 +135,28 @@ public class BSP_Master : MonoBehaviour
                 for (int j = (int)corr.y; j < corr.yMax; ++j)
                 {
                     GameObject obj = Instantiate(_roomMaster.CorridorSprite, new Vector3(i, j, 0f), Quaternion.identity);
+                    SetTile(i, j);
                     obj.GetComponent<SpriteRenderer>().sprite = _roomMaster.CorridorTilesSpr[Random.Range(0, _roomMaster.CorridorTilesSpr.Count)];
                     obj.GetComponent<SpriteRenderer>().sortingOrder = -1;
                     obj.transform.parent = transform;
+                }
+            }
+        }
+    }
+
+    void GenerateCollisions()
+    {
+        for (int i = _floorSize.y - 1; i >= 0; --i)
+        {
+            for (int j = _floorSize.x - 1; j >= 0; --j)
+            {
+                if (!GetTile(j, i))
+                {
+                    GameObject col = new GameObject("Col: (" + j + ", " + i + ")");
+                    col.transform.parent = _collisionsParent.transform;
+                    col.transform.position = new Vector2(j, i);
+                    BoxCollider2D box = col.AddComponent<BoxCollider2D>();
+                    box.size = Vector2.one;
                 }
             }
         }
@@ -129,7 +170,14 @@ public class BSP_Master : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
+        
+        foreach (Transform col in _collisionsParent.transform)
+        {
+            Destroy(col.gameObject);
+        }
 
+        TilesArray.Clear();
+        
         _hasStairs = false;
 
         Init();
@@ -167,6 +215,22 @@ public class BSP_Master : MonoBehaviour
         Gizmos.DrawCube(node.Rect.center, (Vector3)node.Rect.size);
         if (node.LeftChild != null) DebugDrawNodeGizmo(node.LeftChild, Color.red);
         if (node.RightChild != null) DebugDrawNodeGizmo(node.RightChild, Color.blue);
+    }
+    
+    void DebugPrintRoom()
+    {
+        string str = "";
+        for (int i = _floorSize.y - 1; i >= 0; --i)
+        {
+            for (int j = _floorSize.x - 1; j >= 0; --j)
+            {
+                bool tile = GetTile(j, i);
+                str += tile ? "<color=#ff0000ff>X</color>" : "0";
+            }
+
+            str += "\n";
+        }
+        Debug.Log(str);
     }
 }
 

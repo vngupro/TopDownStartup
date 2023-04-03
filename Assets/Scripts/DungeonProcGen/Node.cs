@@ -124,6 +124,13 @@ class Node
 
             Rect rect = new Rect(_rect.x + roomPosX, _rect.y + roomPosY, roomWidth, roomHeight);
             _room = _master.RoomMaster.Generate(rect);
+            for (int x = (int)rect.x; x < rect.xMax; ++x)
+            {
+                for (int y = (int)rect.y; y < rect.yMax; ++y)
+                {
+                    _master.SetTile(x, y);
+                }
+            }
             _isLeaf = true;
         }
     }
