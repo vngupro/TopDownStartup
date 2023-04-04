@@ -34,7 +34,7 @@ public class DeathCountScript : MonoBehaviour, IDataPersistence
 
     public void LoadData(GameData data)
     {
-        deathCount = data.deathCount;
+        deathCount = data.DeathCount;
         deathCountText.text = deathCount.ToString();
     }
 

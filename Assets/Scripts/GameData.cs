@@ -16,10 +16,10 @@ public class GameData
         deathCount = 0;
     }
 
-    public void ReceiveInventory(Inventory inv)
-    {
+    //public void ReceiveInventory(Inventory inv)
+    //{
 
-    }
+    //}
 
     public void ReceiveDeathCount(DeathCountScript death)
     {
