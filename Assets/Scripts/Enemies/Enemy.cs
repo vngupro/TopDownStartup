@@ -19,16 +19,13 @@ public class Enemy : MonoBehaviour
     [Header("Explosion")]
     [SerializeField] private float _explosionRadius;
     [SerializeField] private float _explosionDamages;
-    
-    private void Awake()
-    {
-        // Get player
-        //_playerMask = _player.layer;
-    }
 
-    public void Initialize(Vector2 spawnPoint, OnEnemyDie onEnemyDie)
+    public void Initialize(Vector2 spawnPoint, GameObject player, OnEnemyDie onEnemyDie)
     {
         transform.position = spawnPoint;
+
+        _player = player;
+        _playerMask = player.layer;
         
         // reset health module
         _healthModule.ResetModule();
