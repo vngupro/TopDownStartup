@@ -4,8 +4,7 @@ using Utils;
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(HealthModule))]
 [RequireComponent(typeof(ShootModule))]
-[RequireComponent(typeof(ScoreModule))]
-public sealed class Player : MonoBehaviour
+internal sealed class Player : MonoBehaviour
 {
     [SerializeField] private Rigidbody _rb;
     [Space]
