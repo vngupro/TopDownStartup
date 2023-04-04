@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -5,10 +6,25 @@ using UnityEngine;
 
 public class EnemiesWave : MonoBehaviour
 {
+    private GameObject _player;
+    
     private List<Enemy> _enemiesPool;
 
     [SerializeField] private Enemy _enemyPrefab;
 
+    private void Start()
+    {
+        try
+        {
+            _player = FindObjectOfType<Player>().gameObject;
+        }
+        catch (NullReferenceException e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+    
     public Enemy SpawnEnemy()
     {
         Enemy pooledEnemy = GetFirstPooledEnemy();
@@ -23,7 +39,7 @@ public class EnemiesWave : MonoBehaviour
         
         pooledEnemy.gameObject.SetActive(true);
         
-        pooledEnemy.Initialize(Vector2.zero, () => PoolEnemy(pooledEnemy));
+        pooledEnemy.Initialize(Vector2.zero, _player, () => PoolEnemy(pooledEnemy));
 
         return pooledEnemy;
     }
