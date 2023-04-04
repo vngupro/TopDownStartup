@@ -38,10 +38,14 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
+        Transform enemyTransform = transform;
+        Vector3 enemyPosition = enemyTransform.position;
+        
         // Chasing player
-        transform.position = Vector3.MoveTowards(transform.position, _player.transform.position, _moveSpeed * Time.deltaTime);
+        enemyPosition = Vector3.MoveTowards(enemyPosition, _player.transform.position, _moveSpeed * Time.deltaTime);
+        enemyTransform.position = enemyPosition;
 
-        Collider2D[] playersCollidedCollider = Physics2D.OverlapCircleAll(transform.position, _explosionRadius, _playerMask);
+        Collider2D[] playersCollidedCollider = Physics2D.OverlapCircleAll(enemyPosition, _explosionRadius, _playerMask);
         
         if (playersCollidedCollider.Length > 0)
         {
@@ -54,7 +58,7 @@ public class Enemy : MonoBehaviour
         // Deal damages to players
         foreach (Collider2D playerCollider in playersCollider)
         {
-            playerCollider.gameObject.GetComponent<HealthModule>().ApplyDamage(_explosionDamages);
+            playerCollider.gameObject.GetComponent<HealthModule>()?.ApplyDamage(_explosionDamages);
         }
         
         // End his own life
