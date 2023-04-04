@@ -34,6 +34,9 @@ public class BSP_Master : MonoBehaviour
         get => _hasStairs;
         set => _hasStairs = value;
     }
+    
+    public bool HasSpawnPoint { get; set; }
+    public Vector2 SpawnPoint { get; set; }
 
     public int MaxDivision => _maxDivision;
 
@@ -87,6 +90,7 @@ public class BSP_Master : MonoBehaviour
         GenerateCorridors(_root);
         _root.GenerateStairs();
         GenerateCollisions();
+        _root.GenerateSpawn();
         
         DebugPrintRoom();
 
