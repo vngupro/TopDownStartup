@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Entity">
+    <Position X="6.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\Entity\Entity.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_health" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="EntityAnimator">
+    <Position X="23.5" Y="1.25" Width="1.75" />
+    <Members>
+      <Method Name="Reset" Hidden="true" />
+    </Members>
+    <AssociationLine Name="_attack" Type="EntityAttack" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="24.375" Y="3.959" />
+        <Point X="24.375" Y="6.125" />
+        <Point X="16.75" Y="6.125" />
+        <Point X="16.75" Y="6.5" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAABABAAACAABAAAAAAAAQAAAIAIIAAAIIAAAAAAAEA=</HashCode>
+      <FileName>Assets\Script\Entity\EntityAnimator.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_movement" />
+      <Field Name="_attack" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="EntityMovement">
+    <Position X="15.25" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>IAAAAgAIAoAAFAAAAAAAACIAAAAAgAAgBCAAAgAAAAA=</HashCode>
+      <FileName>Assets\Script\Entity\EntityMovement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Health">
+    <Position X="3.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAACAAkAACAAAAAAQEAwAAAAAAQACCAAACAAAAAA=</HashCode>
+      <FileName>Assets\Script\HealthSystem\Health.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="HealthProxy">
+    <Position X="0.5" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAEAAAAAAAAAAAAAAQAAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Script\HealthSystem\HealthProxy.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_target" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="PlayerBrain">
+    <Position X="11.25" Y="5.25" Width="1.5" />
+    <Members>
+      <Method Name="OnDestroy" Hidden="true" />
+    </Members>
+    <AssociationLine Name="_movement" Type="EntityMovement" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="12.75" Y="5.812" />
+        <Point X="13.292" Y="5.812" Type="JumpStart" />
+        <Point X="13.458" Y="5.812" Type="JumpEnd" />
+        <Point X="16.125" Y="5.812" />
+        <Point X="16.125" Y="5.011" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="_attack" Type="EntityAttack" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="12.75" Y="6.125" />
+        <Point X="13.051" Y="6.125" />
+        <Point X="13.051" Y="7.5" />
+        <Point X="15" Y="7.5" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAABAAIAACAAAAAAAAAAAQAAAICAAAAAAEAAAAAACEA=</HashCode>
+      <FileName>Assets\Script\Entity\PlayerBrain.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_movement" />
+      <Field Name="_attack" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="AIBrain">
+    <Position X="11" Y="1.5" Width="2" />
+    <AssociationLine Name="_attack" Type="EntityAttack" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="13" Y="4.188" />
+        <Point X="13.375" Y="4.188" />
+        <Point X="13.375" Y="7.188" />
+        <Point X="15" Y="7.188" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAQAAEAAAAIQBAAAAAAAAQAAEAAAAEAAEAAAAAIAAEA=</HashCode>
+      <FileName>Assets\AIBrain.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_movement" />
+      <Field Name="_attack" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="AttackZone">
+    <Position X="18.5" Y="7" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACQABAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\AttackZone.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EntityAttack">
+    <Position X="15" Y="6.5" Width="2" />
+    <AssociationLine Name="_attackZone" Type="AttackZone" FixedFromPoint="true">
+      <Path>
+        <Point X="17" Y="7.938" />
+        <Point X="18.5" Y="7.938" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAiAAAAAAAAAAAAAAAAAAAAAAAACAAA=</HashCode>
+      <FileName>Assets\EntityAttack.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_attackZone" />
+    </ShowAsAssociation>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
