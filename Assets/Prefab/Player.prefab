@@ -68,7 +68,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6041049926837159645}
-  - component: {fileID: 4211256022028979249}
   m_Layer: 0
   m_Name: InteractionZone
   m_TagString: Untagged
@@ -91,92 +90,6 @@ Transform:
   m_Father: {fileID: 6882977646245493928}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!58 &4211256022028979249
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2610850215357056001}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 1.26
---- !u!1 &6766934631387035057
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 462987399355637861}
-  - component: {fileID: 2898176745262067118}
-  m_Layer: 0
-  m_Name: PlayerBrain
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &462987399355637861
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6766934631387035057}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2349297346374642035}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2898176745262067118
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6766934631387035057}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2935e0202a3df534da53d4a546a101d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _movement: {fileID: 6445811766320157846}
-  _attack: {fileID: 7970705805980794593}
-  _moveInput:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Move Input
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: 66787201-659f-45f8-972c-e0ee4dfb1cac
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: -8525991464969775083, guid: 55e29d63565f40741bca45a1cf06460e, type: 3}
-  _attackInput:
-    m_UseReference: 0
-    m_Action:
-      m_Name: 
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: 
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
-    m_Reference: {fileID: 0}
 --- !u!1001 &5388345588737081166
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -238,33 +151,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf6879ba03f6f5e4ab3ad5150b0ba076, type: 3}
---- !u!1 &282848626248354591 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5272552499143439441, guid: cf6879ba03f6f5e4ab3ad5150b0ba076, type: 3}
-  m_PrefabInstance: {fileID: 5388345588737081166}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &5891415212569373023
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 282848626248354591}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1fbec2dff012e6247941c18471773348, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _animator: {fileID: 282848627211324672}
-  _movement: {fileID: 6445811766320157846}
-  _attack: {fileID: 0}
-  _isWalkingParam: 765711723
-  _attackTriggerParam: 0
---- !u!95 &282848627211324672 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 5272552500058403406, guid: cf6879ba03f6f5e4ab3ad5150b0ba076, type: 3}
-  m_PrefabInstance: {fileID: 5388345588737081166}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8158480075683173475
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -320,28 +206,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7441624434679606949, guid: a25403db85ec5f24c86189b35f44f1a7, type: 3}
-      propertyPath: m_RootOrder
-      value: 3
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a25403db85ec5f24c86189b35f44f1a7, type: 3}
---- !u!4 &2349297346374642035 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5882509366201892112, guid: a25403db85ec5f24c86189b35f44f1a7, type: 3}
-  m_PrefabInstance: {fileID: 8158480075683173475}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &6445811766320157846 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2903873710831780085, guid: a25403db85ec5f24c86189b35f44f1a7, type: 3}
-  m_PrefabInstance: {fileID: 8158480075683173475}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 685852af2a366a54598988e7d05ace90, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &6635492065594267555 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3255749071248933824, guid: a25403db85ec5f24c86189b35f44f1a7, type: 3}
@@ -352,14 +218,3 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3367990847690254539, guid: a25403db85ec5f24c86189b35f44f1a7, type: 3}
   m_PrefabInstance: {fileID: 8158480075683173475}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7970705805980794593 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2280260485013203586, guid: a25403db85ec5f24c86189b35f44f1a7, type: 3}
-  m_PrefabInstance: {fileID: 8158480075683173475}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04f654de228c0ae46905c40e6a9d701b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
