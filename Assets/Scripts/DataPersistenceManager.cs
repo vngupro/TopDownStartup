@@ -4,6 +4,7 @@ using System.Linq;
 using NaughtyAttributes;
 using System;
 using System.Reflection;
+using UnityEngine.InputSystem;
 
 public class DataPersistenceManager : MonoBehaviour
 {
@@ -14,14 +15,14 @@ public class DataPersistenceManager : MonoBehaviour
 
     public static DataPersistenceManager Instance { get; private set; }
     public List<IDataPersistence> dataPersistences = new List<IDataPersistence>();
-
+    public Dictionary<IDataPersistence, object> keyValuePairs = new Dictionary<IDataPersistence, object>();
     private GameData _gameData;
     private FileDataHandler _dataHandler;
     private void Awake()
     {
         if(Instance != null)
         {
-            Debug.LogError("Found more than one Data Persistence Manager in the scene");
+            UnityEngine.Debug.LogError("Found more than one Data Persistence Manager in the scene");
             Destroy(gameObject);
         }
 
@@ -48,39 +49,65 @@ public class DataPersistenceManager : MonoBehaviour
 
     public void SaveGame()
     {
-        foreach(var el in dataPersistences.Select(i => (data:i, fields:i.GetType()
-                .GetFields(System.Reflection.BindingFlags.Instance)
-                .Where(j => j.CustomAttributes.FirstOrDefault(k => k is SaveAttribute) != null))))
+        BindingFlags flags =
+             BindingFlags.Public |
+             BindingFlags.Instance |
+             BindingFlags.NonPublic;
+        
+        foreach (var data in dataPersistences
+            .Select( i => (data: i, fields: i.GetType()
+                .GetFields(flags)
+                    .Where(j => j.GetCustomAttribute<SaveAttribute>() != null))))
         {
-
-            foreach(FieldInfo f in el.fields)
+            foreach(var field in data.fields)
             {
-                //switch(f.FieldType.GetType())
-                //{
-                //    case typeof(int) intData:
-
-                //        break;
-                //}
-
-                if(f.FieldType.GetType() == typeof(int))
+                if (field.FieldType == typeof(bool))
                 {
-
+                    UnityEngine.Debug.Log(field.Name + " is bool");
                 }
-                else if(f.FieldType.GetType() == typeof(bool))
+                if (field.FieldType == typeof(int))
                 {
+                    UnityEngine.Debug.Log(field.Name + " is int");
+                    
+                    SaveData saveData = new SaveData();
+                    saveData.name = field.Name;
+                    object obj = null;
+                    keyValuePairs.TryGetValue(dataPersistences[0], out obj);
+                    saveData.value = field.GetValue(obj);
+                    UnityEngine.Debug.Log(saveData.value + " is value");
 
+                    
+                    if (_gameData.dico.ContainsKey(field.Name))
+                    {
+                        _gameData.dico[field.Name] = field.GetValue(obj);
+                    }
+                    else
+                    {
+                        _gameData.dico.Add(field.Name, field.GetValue(obj));
+                    }
                 }
-
+                else if(field.FieldType == typeof(float))
+                {
+                    UnityEngine.Debug.Log(field.Name + " is float");
+                }
+                else if (field.FieldType == typeof(string))
+                {
+                    UnityEngine.Debug.Log(field.Name + " is string");
+                }
+                else if(field.FieldType.IsEnum)
+                {
+                    UnityEngine.Debug.Log(field.Name + " is enum");
+                }
             }
         }
 
         // pass the data to other scripts so they can update it
-        foreach (IDataPersistence dataPersistence in dataPersistences) 
-        {
-            dataPersistence.SaveData(ref _gameData);
-        }
+        //foreach (IDataPersistence dataPersistence in dataPersistences)
+        //{
+        //    dataPersistence.SaveData(ref _gameData);
+        //}
 
-        // save that data to a file using the data handler
+        //// save that data to a file using the data handler
         _dataHandler.Save(_gameData);
     }
 
@@ -90,7 +117,7 @@ public class DataPersistenceManager : MonoBehaviour
         // if no data cna be loaded, initialize to a new game
         if (_gameData == null)
         {
-            Debug.Log("No data was found. Initializing data to defaults.");
+            UnityEngine.Debug.Log("No data was found. Initializing data to defaults.");
             NewGame();
         }
 
@@ -106,9 +133,10 @@ public class DataPersistenceManager : MonoBehaviour
         SaveGame();
     }
 
-    public void Subscribe(IDataPersistence dataPersistence)
+    public void Subscribe(IDataPersistence dataPersistence, object obj)
     {
         dataPersistences.Add(dataPersistence);
+        keyValuePairs.Add(dataPersistence, obj);
     }
     private List<IDataPersistence> FindAllDataPersistenceObjects()
     {

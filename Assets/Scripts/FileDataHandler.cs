@@ -1,9 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-using System.Linq;
 using System;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 
 public class FileDataHandler
 {
@@ -36,7 +35,8 @@ public class FileDataHandler
                 }
 
                 // deserialize the data from the Json back into the C# object
-                loadedData = JsonUtility.FromJson<GameData>(dataToLoad);
+                //loadedData = JsonUtility.FromJson<GameData>(dataToLoad);
+                loadedData = JsonConvert.DeserializeObject<GameData>(dataToLoad);
 
             }
             catch (Exception e)
@@ -55,7 +55,8 @@ public class FileDataHandler
         {
             // Create the directory the file will be written on if it doesn't exist
             Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
-            string dataToStore = JsonUtility.ToJson(data, true);
+
+            string dataToStore = JsonConvert.SerializeObject(data, Newtonsoft.Json.Formatting.Indented);
             using (FileStream stream = new FileStream(fullPath, FileMode.Create))
             {
                 using (StreamWriter writer = new StreamWriter(stream)) 

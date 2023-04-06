@@ -5,13 +5,14 @@ using System.Collections.Generic;
 using UnityEditor;
 using System.Text;
 
-public class SaveFieldEditorWindow : EditorWindow
+#if UNITY_EDITOR
+public class SaveAttributeEditorWindow : EditorWindow
 {
-    List<SaveFieldInfo> savedMembers = new List<SaveFieldInfo>();
-    [MenuItem("Tools/SaveField")]
+    List<SaveAttributeInfo> savedMembers = new List<SaveAttributeInfo>();
+    [MenuItem("Tools/SaveAttribute")]
     public static void Open()
     {
-        SaveFieldEditorWindow window = CreateWindow<SaveFieldEditorWindow>("Save Field");
+        SaveAttributeEditorWindow window = CreateWindow<SaveAttributeEditorWindow>("Save Attribute");
     }
 
     private void OnEnable()
@@ -28,7 +29,8 @@ public class SaveFieldEditorWindow : EditorWindow
                 BindingFlags flags =
                     BindingFlags.Public |
                     BindingFlags.Instance |
-                    BindingFlags.NonPublic;
+                    BindingFlags.NonPublic | 
+                    BindingFlags.Static;
 
                 MemberInfo[] members = type.GetFields(flags);
                 foreach(MemberInfo member in members) 
@@ -40,7 +42,7 @@ public class SaveFieldEditorWindow : EditorWindow
                         {
                             Type reflectedType = member.ReflectedType;
                             object obj = FindObjectOfType(reflectedType);
-                            savedMembers.Add(new SaveFieldInfo(member, attribute, obj));
+                            savedMembers.Add(new SaveAttributeInfo(member, attribute, obj));
                         }
                     }
                 }
@@ -54,7 +56,7 @@ public class SaveFieldEditorWindow : EditorWindow
         StringBuilder stringBuilder = new StringBuilder();
         Type reflectedType = null;
 
-        foreach (SaveFieldInfo save in savedMembers) 
+        foreach (SaveAttributeInfo save in savedMembers) 
         {
             MemberInfo memberInfo = save.memberInfo;
             SaveAttribute saveField = save.saveField;
@@ -62,25 +64,28 @@ public class SaveFieldEditorWindow : EditorWindow
             reflectedType = memberInfo.ReflectedType;
 
             stringBuilder.Clear();
-            stringBuilder.Append(field.GetValue(save.obj).ToString().Trim());
-            stringBuilder.Append(" - ");
             stringBuilder.Append(reflectedType);
+            stringBuilder.Append(" - ");
+            stringBuilder.Append(field.Name);
+            stringBuilder.Append(" - ");
+            stringBuilder.Append(field.GetValue(save.obj).ToString().Trim());
 
             EditorGUILayout.LabelField(stringBuilder.ToString(), EditorStyles.boldLabel);
         }
     }
 }
 
-public struct SaveFieldInfo
+public struct SaveAttributeInfo
 {
     public MemberInfo memberInfo;
     public SaveAttribute saveField;
     public object obj;
 
-    public SaveFieldInfo(MemberInfo info, SaveAttribute field, object obj)
+    public SaveAttributeInfo(MemberInfo info, SaveAttribute field, object obj)
     {
         memberInfo = info;
         saveField = field;
         this.obj = obj;
     }
 }
+#endif

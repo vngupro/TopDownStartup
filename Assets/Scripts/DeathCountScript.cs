@@ -1,10 +1,12 @@
 using UnityEngine;
 using TMPro;
+using System;
+
 public class DeathCountScript : MonoBehaviour, IDataPersistence
 {
     public HealthModule playerHealthModule;
- 
-    [Save] public int deathCount = 0;
+
+    [Save] [SerializeField] private int? deathCount = 0;
 
     private TMP_Text deathCountText;
 
@@ -12,16 +14,17 @@ public class DeathCountScript : MonoBehaviour, IDataPersistence
     {
         deathCountText = GetComponentInChildren<TMP_Text>();
         deathCountText.text = deathCount.ToString();
-        DataPersistenceManager.Instance.Subscribe(this);
-        
+        DataPersistenceManager.Instance.Subscribe(this, this);
     }
-    private void OnEnable()
+
+    private void Start()
     {
+
         playerHealthModule.Died += UpdateDeathCount;
         DataPersistenceManager.Instance.OnNewGame += ResetDeathCount;
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         playerHealthModule.Died -= UpdateDeathCount;
         DataPersistenceManager.Instance.OnNewGame -= ResetDeathCount;
@@ -34,7 +37,7 @@ public class DeathCountScript : MonoBehaviour, IDataPersistence
 
     public void LoadData(GameData data)
     {
-        deathCount = data.DeathCount;
+        deathCount = data.dico["deathCount"] as int?;
         deathCountText.text = deathCount.ToString();
     }
 
@@ -42,6 +45,7 @@ public class DeathCountScript : MonoBehaviour, IDataPersistence
     {
         deathCount++;
         deathCountText.text = deathCount.ToString();
+        DataPersistenceManager.Instance.SaveGame();
     }
 
     private void ResetDeathCount()
