@@ -11,17 +11,18 @@ public class DeathCountScript : MonoBehaviour, IDataPersistence
     {
         deathCountText = GetComponentInChildren<TMP_Text>();
         deathCountText.text = deathCount.ToString();
+        
     }
 
     private void Start()
     {
-        playerHealthModule.Died += AddDeathCount;
+        playerHealthModule.OnDied += AddDeathCount;
         DataPersistenceManager.Instance.OnNewGame += ResetDeathCount;
     }
 
     private void OnDestroy()
     {
-        playerHealthModule.Died -= AddDeathCount;
+        playerHealthModule.OnDied -= AddDeathCount;
         DataPersistenceManager.Instance.OnNewGame -= ResetDeathCount;
     }
 
