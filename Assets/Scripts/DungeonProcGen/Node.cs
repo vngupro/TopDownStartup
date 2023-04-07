@@ -250,6 +250,28 @@ class Node
         }
     }
 
+    public void GenerateSpawn()
+    {
+        if (_master.HasSpawnPoint) return;
+
+        if (_isLeaf)
+        {
+            _master.HasSpawnPoint = true;
+            int x = (int)Random.Range(_room.Rect.xMin, _room.Rect.xMax);
+            int y = (int)Random.Range(_room.Rect.yMin, _room.Rect.yMax);
+            _master.SpawnPoint = new Vector2(x, y);
+            Debug.Log(_master.SpawnPoint);
+        }
+
+        if (_leftChild != null && _rightChild == null) _leftChild.GenerateSpawn();
+        else if (_leftChild == null && _rightChild != null) _rightChild.GenerateSpawn();
+        else if (_leftChild != null && _rightChild != null)
+        {
+            if (Random.Range(0f, 1f) < 0.5f) _leftChild.GenerateSpawn();
+            else _rightChild.GenerateSpawn();
+        }
+    }
+
     public void DebugDraw(bool drawChilds, Color drawColor)
     {
 

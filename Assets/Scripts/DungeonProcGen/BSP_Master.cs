@@ -25,11 +25,21 @@ public class BSP_Master : MonoBehaviour
 
     private bool _hasStairs = false;
 
+    private Vector2 _spawnPoint;
+
+    public Vector2 SpawnPoint
+    {
+        get => _spawnPoint;
+        set => _spawnPoint = value;
+    }
+
     public bool HasStairs
     {
         get => _hasStairs;
         set => _hasStairs = value;
     }
+
+    public bool HasSpawnPoint { get; set; }
 
     public int MaxDivision => _maxDivision;
 
@@ -71,6 +81,7 @@ public class BSP_Master : MonoBehaviour
         _root.CreateRoom();
         GenerateCorridors(_root);
         _root.GenerateStairs();
+        _root.GenerateSpawn();
 
         float w = _root.Rect.width;
         float h = _root.Rect.width;
