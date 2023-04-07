@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 class Node
 {
@@ -124,6 +127,13 @@ class Node
 
             Rect rect = new Rect(_rect.x + roomPosX, _rect.y + roomPosY, roomWidth, roomHeight);
             _room = _master.RoomMaster.Generate(rect);
+            for (int x = (int)rect.x; x < rect.xMax; ++x)
+            {
+                for (int y = (int)rect.y; y < rect.yMax; ++y)
+                {
+                    _master.SetTile(x, y);
+                }
+            }
             _isLeaf = true;
         }
     }
@@ -249,6 +259,35 @@ class Node
             else _rightChild.GenerateStairs();
         }
     }
+    
+    
+    public void GenerateSpawn()
+    {
+        if (_master.HasSpawnPoint) return;
+        
+        if (_isLeaf)
+        {
+            _master.HasSpawnPoint = true;
+            int x = (int)Random.Range(_room.Rect.xMin, _room.Rect.xMax);
+            int y = (int)Random.Range(_room.Rect.yMin, _room.Rect.yMax);
+            _master.SpawnPoint = new Vector2(x, y);
+            // GameObject go = new GameObject();
+            // go.transform.position = new Vector2(x, y);
+            // go.transform.localScale = new Vector3(5.5f, 5.5f, 1);
+            // go.AddComponent<SpriteRenderer>().sprite = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/InputFieldBackground.psd");
+            // go.GetComponent<SpriteRenderer>().sortingOrder = 5;
+        }
+
+        if (_leftChild != null && _rightChild == null) _leftChild.GenerateSpawn();
+        else if (_leftChild == null && _rightChild != null) _rightChild.GenerateSpawn();
+        else if (_leftChild != null && _rightChild != null)
+        {
+            if (Random.Range(0f, 1f) < 0.5f) _leftChild.GenerateSpawn();
+            else _rightChild.GenerateSpawn();
+        }
+    }
+
+
 
     public void DebugDraw(bool drawChilds, Color drawColor)
     {
