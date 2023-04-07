@@ -1,3 +1,4 @@
+using Cinemachine;
 using UnityEngine;
 using Utils;
 
@@ -23,6 +24,8 @@ internal sealed class Player : MonoBehaviour
     {
         _playerService.AddPlayer(this);
     }*/
+
+    private void Start() => FindObjectOfType<CinemachineTargetGroup>().AddMember(transform, 1, 0);
 
     private void Update()
     {
