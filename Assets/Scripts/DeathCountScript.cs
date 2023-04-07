@@ -13,7 +13,7 @@ public class DeathCountScript : MonoBehaviour, IDataPersistence
 {
     public HealthModule playerHealthModule;
 
-    [Save] [SerializeField] private int? deathCount = 0;
+    [Save] [SerializeField] private int deathCount = 0;
 
     private TMP_Text deathCountText;
 
@@ -21,7 +21,7 @@ public class DeathCountScript : MonoBehaviour, IDataPersistence
     {
         deathCountText = GetComponentInChildren<TMP_Text>();
         deathCountText.text = deathCount.ToString();
-        DataPersistenceManager.Instance.Subscribe(this, this);
+        DataPersistenceManager.Instance.Subscribe(this);
         // try cast to object
     }
 
@@ -45,7 +45,7 @@ public class DeathCountScript : MonoBehaviour, IDataPersistence
 
     public void LoadData(GameData data)
     {
-        deathCount = data.dico["deathCount"] as int?;
+        deathCount = Convert.ToInt32(data.dico["deathCount"]);
         deathCountText.text = deathCount.ToString();
     }
 

@@ -133,11 +133,11 @@ public class DataPersistenceManager : MonoBehaviour
         SaveGame();
     }
 
-    public void Subscribe(IDataPersistence dataPersistence, object obj)
+    public void Subscribe(IDataPersistence dataPersistence)
     {
         dataPersistences.Add(dataPersistence);
         //dataPersistence as object
-        keyValuePairs.Add(dataPersistence, obj);
+        keyValuePairs.Add(dataPersistence, dataPersistence as object);
     }
     private List<IDataPersistence> FindAllDataPersistenceObjects()
     {
