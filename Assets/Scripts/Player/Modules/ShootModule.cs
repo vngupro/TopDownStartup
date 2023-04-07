@@ -34,6 +34,7 @@ internal sealed class ShootModule : MonoBehaviour
     {
         _audioService.PlaySound(AUDIO_CHANNEL.SFX, _shootSFX);
 
-        _projectileSpawner.Spawn();
+        Projectile p = (Projectile)_projectileSpawner.Spawn();
+        p.Shoot(transform);
     }
 }

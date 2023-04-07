@@ -348,7 +348,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -373,7 +373,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 5.625
+  orthographic size: 6.15625
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -60138,6 +60138,46 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1431115426535187223, guid: 7d8af69c6f70b3c48aabe506a5619bff, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1431115426535187223, guid: 7d8af69c6f70b3c48aabe506a5619bff, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1431115426535187223, guid: 7d8af69c6f70b3c48aabe506a5619bff, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2357251084282440181, guid: 7d8af69c6f70b3c48aabe506a5619bff, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2357251084282440181, guid: 7d8af69c6f70b3c48aabe506a5619bff, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2357251084282440181, guid: 7d8af69c6f70b3c48aabe506a5619bff, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2490246178022152183, guid: 7d8af69c6f70b3c48aabe506a5619bff, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2490246178022152183, guid: 7d8af69c6f70b3c48aabe506a5619bff, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2554361729909104224, guid: 7d8af69c6f70b3c48aabe506a5619bff, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2554361729909104224, guid: 7d8af69c6f70b3c48aabe506a5619bff, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4444051389901182525, guid: 7d8af69c6f70b3c48aabe506a5619bff, type: 3}
       propertyPath: m_Name
       value: Canvas
@@ -60156,6 +60196,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4550256002379107617, guid: 7d8af69c6f70b3c48aabe506a5619bff, type: 3}
       propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4622348765619600425, guid: 7d8af69c6f70b3c48aabe506a5619bff, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4622348765619600425, guid: 7d8af69c6f70b3c48aabe506a5619bff, type: 3}
+      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4673500252084790376, guid: 7d8af69c6f70b3c48aabe506a5619bff, type: 3}
@@ -60312,6 +60360,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8896401067244778624, guid: 7d8af69c6f70b3c48aabe506a5619bff, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8914528063437453219, guid: 7d8af69c6f70b3c48aabe506a5619bff, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8914528063437453219, guid: 7d8af69c6f70b3c48aabe506a5619bff, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8914528063437453219, guid: 7d8af69c6f70b3c48aabe506a5619bff, type: 3}
+      propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
