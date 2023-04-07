@@ -6,6 +6,8 @@ using Utils;
 [RequireComponent(typeof(ShootModule))]
 internal sealed class Player : MonoBehaviour
 {
+    private static IPlayerService _playerService;
+
     [SerializeField] private Rigidbody _rb;
     [Space]
     [SerializeField] private HealthModule _healthModule;
@@ -14,6 +16,13 @@ internal sealed class Player : MonoBehaviour
     [SerializeField] private float _speed = 10;
 
     private Vector2 _input;
+
+    private void Awake() => _playerService ??= Services.Resolve<IPlayerService>();
+
+    private void Start()
+    {
+        _playerService.AddPlayer(this);
+    }
 
     private void Update()
     {
