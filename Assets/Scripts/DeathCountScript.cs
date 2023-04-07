@@ -26,17 +26,19 @@ public class DeathCountScript : MonoBehaviour
 
     private void Start()
     {
-        playerHealthModule.Died += UpdateDeathCount;
+        playerHealthModule = FindObjectOfType<HealthModule>();
+        playerHealthModule.OnDied += UpdateDeathCount;
     }
 
+    // I know it's ugly
     private void Update()
     {
-        Debug.Log("DeathCount Update = " + deathCountDTO.DeathCount);
         deathCountText.text = deathCountDTO.DeathCount.ToString();
     }
+
     private void OnDestroy()
     {
-        playerHealthModule.Died -= UpdateDeathCount;
+        playerHealthModule.OnDied -= UpdateDeathCount;
     }
 
     private void UpdateDeathCount()
