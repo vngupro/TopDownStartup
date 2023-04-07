@@ -3,14 +3,38 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class EnemiesWave : MonoBehaviour
 {
-    private GameObject _player;
+    private const string _DEFAULT_NAME = "DEFAULT ENEMY TYPE NAME";
     
-    private List<Enemy> _enemiesPool;
+    private GameObject _player;
 
-    [SerializeField] private Enemy _enemyPrefab;
+    private Dictionary<string, EnemyPooling> _enemyPoolingObjects;
+
+    private int _currentWaveNumber;
+    private int _currentEnemiesAliveNumber;
+
+    [Header("Waves")]
+    [SerializeField] private Enemy[] _enemiesType;
+    [SerializeField] private int _waveNumber;
+    [SerializeField] private int _enemiesNumberPerWave;
+
+    private void Awake()
+    {
+        foreach (var enemyType in _enemiesType.Distinct())
+        {
+            string enemyTypeName = enemyType.GetType().FullName ?? _DEFAULT_NAME;
+
+            GameObject nPooling = new GameObject($"Enemies pooling: {enemyTypeName}");
+            nPooling.transform.SetParent(transform);
+            EnemyPooling enemyPooling = nPooling.AddComponent<EnemyPooling>();
+            enemyPooling.Initialize(enemyType);
+
+            _enemyPoolingObjects.Add(enemyTypeName, enemyPooling);
+        }
+    }
 
     private void Start()
     {
@@ -25,37 +49,31 @@ public class EnemiesWave : MonoBehaviour
         }
     }
     
-    public Enemy SpawnEnemy()
+    private void SpawnEnemyWave()
     {
-        Enemy pooledEnemy = GetFirstPooledEnemy();
+        int enemyType = Random.Range(0, _enemiesType.Length);
+        
+        EnemyPooling enemyPooling = _enemyPoolingObjects[_enemiesType[enemyType].GetType().FullName ?? _DEFAULT_NAME];
 
-        if (pooledEnemy == null)
+        for (int i = 0; i < _enemiesNumberPerWave - 1; i++)
         {
-            print("Create new pooled enemy");
-            
-            pooledEnemy = Instantiate(_enemyPrefab);
-            _enemiesPool.Add(pooledEnemy);
+            Enemy nPooledEnemy = enemyPooling.SpawnEnemy();
+            enemyPooling.InitializeEnemy(nPooledEnemy, _player, () => OneEnemyDied(nPooledEnemy));
         }
+    }
+
+    private void OneEnemyDied(Enemy enemy)
+    {
+        print("Enemy died");
+        _currentEnemiesAliveNumber--;
+
+        if (_currentEnemiesAliveNumber > 0) return;
+
+        _currentWaveNumber++;
         
-        pooledEnemy.gameObject.SetActive(true);
+        if (_currentWaveNumber >= _waveNumber) // gg
+            return;
         
-        pooledEnemy.Initialize(Vector2.zero, _player, () => PoolEnemy(pooledEnemy));
-
-        return pooledEnemy;
-    }
-
-    private Enemy GetFirstPooledEnemy()
-    {
-        return _enemiesPool.FirstOrDefault(enemy => !enemy.gameObject.activeInHierarchy);
-    }
-
-    private Enemy[] GetPooledEnemies()
-    {
-        return _enemiesPool.Where(enemy => !enemy.gameObject.activeInHierarchy).ToArray();
-    }
-
-    private void PoolEnemy(Enemy enemy)
-    {
-        enemy.gameObject.SetActive(false);
+        SpawnEnemyWave();
     }
 }
