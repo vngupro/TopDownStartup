@@ -3,7 +3,7 @@ using TMPro;
 
 public class DeathCountScript : MonoBehaviour
 {
-    public HealthModule playerHealthModule;
+    private HealthModule playerHealthModule;
 
     private TMP_Text deathCountText;
 
@@ -26,6 +26,7 @@ public class DeathCountScript : MonoBehaviour
 
     private void Start()
     {
+        // I Know it's ugly
         playerHealthModule = FindObjectOfType<HealthModule>();
         playerHealthModule.OnDied += UpdateDeathCount;
     }

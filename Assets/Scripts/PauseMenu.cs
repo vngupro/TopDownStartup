@@ -1,3 +1,4 @@
+using System.Transactions.Configuration;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -5,6 +6,7 @@ public class PauseMenu : MonoBehaviour
 {
     private static ISaveLoadService _saveLoadService;
     private static IGameStateService _gameStateService;
+    private static IAudioService _audioService;
 
     [SerializeField] private GameObject pausePanel;
     [SerializeField] private GameObject optionPanel;
@@ -14,12 +16,16 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] private Button loadButton;
     [SerializeField] private Button quitButton;
     [SerializeField] private Button backButton;
+    [SerializeField] private Slider masterSlider;
+    [SerializeField] private Slider bgmSlider;
+    [SerializeField] private Slider sfxSlider;
 
 
     private void Awake()
     {
         _saveLoadService ??= Services.Resolve<ISaveLoadService>();
         _gameStateService ??= Services.Resolve<IGameStateService>();
+        _audioService ??= Services.Resolve<IAudioService>();
 
         _gameStateService.RegisterPauseMenu(pausePanel);
 
@@ -36,6 +42,9 @@ public class PauseMenu : MonoBehaviour
         restartButton.onClick.AddListener(OnRestartClicked);
         optionButton.onClick.AddListener(OnOptionClicked);
         backButton.onClick.AddListener(OnBackClicked);
+        masterSlider.onValueChanged.AddListener(OnMasterChanged);
+        bgmSlider.onValueChanged.AddListener(OnBGMChanged);
+        sfxSlider.onValueChanged.AddListener(OnSFXChanged);
     }
 
     private void OnDestroy()
@@ -72,6 +81,21 @@ public class PauseMenu : MonoBehaviour
     public void OnLoadClicked()
     {
         _saveLoadService.Load();
+    }
+
+    public void OnMasterChanged(float volume)
+    {
+        _audioService.SetMasterVolume(masterSlider);
+    }
+    
+    public void OnBGMChanged(float volume)
+    {
+        _audioService.SetBGMVolume(bgmSlider);
+    }
+
+    public void OnSFXChanged(float volume)
+    {
+        _audioService.SetSFXVolume(sfxSlider);
     }
 
     public void OnQuitClicked()
