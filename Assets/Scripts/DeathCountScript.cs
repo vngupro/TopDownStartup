@@ -2,6 +2,13 @@ using UnityEngine;
 using TMPro;
 using System;
 
+/*
+ * ISaveLoadService
+ * pass un dto 
+ * sache juste que tu dois save ca donc passe en ref
+ * load c'est la meme chose que save à l'envers
+ * 
+ */
 public class DeathCountScript : MonoBehaviour, IDataPersistence
 {
     public HealthModule playerHealthModule;
@@ -15,6 +22,7 @@ public class DeathCountScript : MonoBehaviour, IDataPersistence
         deathCountText = GetComponentInChildren<TMP_Text>();
         deathCountText.text = deathCount.ToString();
         DataPersistenceManager.Instance.Subscribe(this, this);
+        // try cast to object
     }
 
     private void Start()

@@ -102,10 +102,10 @@ public class DataPersistenceManager : MonoBehaviour
         }
 
         // pass the data to other scripts so they can update it
-        //foreach (IDataPersistence dataPersistence in dataPersistences)
-        //{
-        //    dataPersistence.SaveData(ref _gameData);
-        //}
+        foreach (IDataPersistence dataPersistence in dataPersistences)
+        {
+            dataPersistence.SaveData(ref _gameData);
+        }
 
         //// save that data to a file using the data handler
         _dataHandler.Save(_gameData);
@@ -136,6 +136,7 @@ public class DataPersistenceManager : MonoBehaviour
     public void Subscribe(IDataPersistence dataPersistence, object obj)
     {
         dataPersistences.Add(dataPersistence);
+        //dataPersistence as object
         keyValuePairs.Add(dataPersistence, obj);
     }
     private List<IDataPersistence> FindAllDataPersistenceObjects()
