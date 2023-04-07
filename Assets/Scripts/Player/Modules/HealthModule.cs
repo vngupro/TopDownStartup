@@ -33,15 +33,15 @@ public class HealthModule : MonoBehaviour
 
     private void Awake()
     {
-        _audioService ??= Services.Resolve<AudioService>();
+        _audioService ??= Services.Resolve<IAudioService>();
         Health = _initHealth;
     }
 
     private void Start()
     {
-        _damageSound = Resources.Load("AudioResources/SFX/DamageSFX.mp3") as AudioClip;
-        _dieSound = Resources.Load("AudioResources/SFX/DieSFX.mp3") as AudioClip;
-        _healthSound = Resources.Load("AudioResources/SFX/HealthSFX.mp3") as AudioClip;
+        _damageSound = Resources.Load("AudioResources/SFX/DamageSFX") as AudioClip;
+        _dieSound = Resources.Load("AudioResources/SFX/DieSFX") as AudioClip;
+        _healthSound = Resources.Load("AudioResources/SFX/HealthSFX") as AudioClip;
     }
 
     public void ApplyDamage(float f)

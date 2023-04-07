@@ -11,9 +11,10 @@ internal static class Services
     /// </summary>
     private static void Initialize()
     {
-        Register<IPlayerService, PlayerService>();
-        Register<IYoService, YoService>();
         Register<IAudioService, AudioService>();
+        Register<IPlayerService, PlayerService>();
+        Register<IGameStateService, GameStateService>();
+        Register<IYoService, YoService>();
     }
 
     private const string AUTHORIZED_CALLER = "Awake";

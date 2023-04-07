@@ -12,17 +12,13 @@ enum AUDIO_CHANNEL
 
 public class AudioService : MonoBehaviour, IAudioService
 {
-    private static IPlayerService _playerService;
-
     [SerializeField] private AudioMixer _masterMixer;
     [SerializeField] private AudioSource _audioSource;
-        
-    private void Awake() => _playerService ??= Services.Resolve<IPlayerService>();
 
     private void Start()
     {
         _masterMixer = Resources.Load("AudioMixer/MasterMixer") as AudioMixer;
-        _audioSource = _playerService.GetPlayerAt(0).GetComponent<AudioSource>();
+        _audioSource = gameObject.AddComponent<AudioSource>();
     }
 
     public void SetMasterVolume(Slider volume)
