@@ -10,9 +10,9 @@ public class HealthModule : MonoBehaviour
     private AudioClip _dieSound;
     private AudioClip _healthSound;
 
-    [SerializeField] private ParticleSystem PS_Damage;
-    [SerializeField] private ParticleSystem PS_DeathPlayer;
-    [SerializeField] private ParticleSystem PS_Heal;
+    [SerializeField] private ParticleSystem _particleDamage;
+    [SerializeField] private ParticleSystem _particleDeath;
+    [SerializeField] private ParticleSystem _particleHeal;
 
 
     /// <summary>
@@ -43,6 +43,10 @@ public class HealthModule : MonoBehaviour
 
     private void Start()
     {
+        _particleDamage = (Resources.Load("Particles/PS_Damage") as GameObject).GetComponent<ParticleSystem>();
+        _particleDeath = (Resources.Load("Particles/PS_Damage") as GameObject).GetComponent<ParticleSystem>();
+        _particleHeal = (Resources.Load("Particles/PS_Damage") as GameObject).GetComponent<ParticleSystem>();
+
         _damageSound = Resources.Load("AudioResources/SFX/DamageSFX") as AudioClip;
         _dieSound = Resources.Load("AudioResources/SFX/DieSFX") as AudioClip;
         _healthSound = Resources.Load("AudioResources/SFX/HealthSFX") as AudioClip;
@@ -56,12 +60,12 @@ public class HealthModule : MonoBehaviour
         {
             OnDied?.Invoke();
             _audioService.PlaySound(AUDIO_CHANNEL.SFX, _dieSound);
-            ParticleSystem ParticleDeath = Instantiate<ParticleSystem>(PS_DeathPlayer, this.transform);
+            ParticleSystem ParticleDeath = Instantiate<ParticleSystem>(_particleDeath, this.transform);
             Destroy(ParticleDeath.gameObject, ParticleDeath.main.duration);
             return;
         }
 
-        ParticleSystem ParticleDamage = Instantiate<ParticleSystem>(PS_Damage, this.transform);
+        ParticleSystem ParticleDamage = Instantiate<ParticleSystem>(_particleDamage, this.transform);
         Destroy(ParticleDamage.gameObject, ParticleDamage.main.duration);
         _audioService.PlaySound(AUDIO_CHANNEL.SFX, _damageSound);
     }
@@ -71,7 +75,7 @@ public class HealthModule : MonoBehaviour
         Health = Mathf.Clamp(Health + heal, Health, _initHealth);
         OnHealed?.Invoke(heal);
 
-        ParticleSystem ParticleHeal = Instantiate<ParticleSystem>(PS_Heal, this.transform);
+        ParticleSystem ParticleHeal = Instantiate<ParticleSystem>(_particleHeal, this.transform);
         Destroy(ParticleHeal.gameObject, ParticleHeal.main.duration);
         _audioService.PlaySound(AUDIO_CHANNEL.SFX, _healthSound);
     }

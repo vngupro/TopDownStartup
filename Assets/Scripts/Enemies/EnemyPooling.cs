@@ -10,6 +10,7 @@ public class EnemyPooling : MonoBehaviour
 
     public void Initialize(Enemy enemyPrefab)
     {
+        _enemiesPool = new List<Enemy>();
         _enemyPrefab = enemyPrefab;
     }
     
@@ -32,10 +33,13 @@ public class EnemyPooling : MonoBehaviour
 
     public bool InitializeEnemy(Enemy pooledEnemy, Vector3 position, GameObject player, Enemy.OnEnemyDie onEnemyDie)
     {
-        if (_enemiesPool.Exists((x) => x == pooledEnemy))
-            return false;
-        
         Enemy.OnEnemyDie onEnemyDieAction = () => PoolEnemy(pooledEnemy);
+        if (_enemiesPool.Exists((x) => x == pooledEnemy))
+        {
+            pooledEnemy.Initialize(position, player, onEnemyDieAction);
+            return false;
+        }
+        
         if (onEnemyDie != null) onEnemyDieAction += onEnemyDie;
         
         pooledEnemy.Initialize(position, player, onEnemyDieAction);

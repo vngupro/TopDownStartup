@@ -34,10 +34,10 @@ public class EnemiesWave : MonoBehaviour
             Console.WriteLine(e);
             throw;
         }
-        
+        _enemyPoolingObjects = new Dictionary<string, EnemyPooling>();
         foreach (var enemyType in _enemiesType.Distinct())
         {
-            string enemyTypeName = enemyType.GetType().FullName ?? _DEFAULT_NAME;
+            string enemyTypeName = enemyType.name ?? _DEFAULT_NAME;
 
             GameObject nPooling = new GameObject($"Enemies pooling: {enemyTypeName}");
             nPooling.transform.SetParent(transform);
@@ -46,13 +46,14 @@ public class EnemiesWave : MonoBehaviour
 
             _enemyPoolingObjects.Add(enemyTypeName, enemyPooling);
         }
+        SpawnEnemyWave();
     }
 
     private void SpawnEnemyWave()
     {
         int enemyType = Random.Range(0, _enemiesType.Length);
 
-        EnemyPooling enemyPooling = _enemyPoolingObjects[_enemiesType[enemyType].GetType().FullName ?? _DEFAULT_NAME];
+        EnemyPooling enemyPooling = _enemyPoolingObjects[_enemiesType[enemyType].name ?? _DEFAULT_NAME];
 
         for (int i = 0; i < _enemiesNumberPerWave - 1; i++)
         {
