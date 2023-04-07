@@ -23,8 +23,9 @@ public class Enemy : MonoBehaviour
 
         _player = player;
         _playerMask = player.layer;
-        
+
         // reset health module
+        _healthModule = gameObject.GetComponent<HealthModule>();
         _healthModule.Reset();
         
         _healthModule.OnDied += Death;
