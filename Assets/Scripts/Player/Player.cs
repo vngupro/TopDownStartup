@@ -12,7 +12,6 @@ internal sealed class Player : MonoBehaviour
     [Space]
     [SerializeField] private HealthModule _healthModule;
     [SerializeField] private ShootModule _shootModule;
-    [SerializeField] private ScoreModule _scoreModule;
     [Space]
     [SerializeField] private float _speed = 10;
 
@@ -40,6 +39,5 @@ internal sealed class Player : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
         _healthModule = GetComponent<HealthModule>();
         _shootModule = GetComponent<ShootModule>();
-        _scoreModule = GetComponent<ScoreModule>();
     }
 }
