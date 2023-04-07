@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class HealthModule : MonoBehaviour
 {
+    private static IAudioService _audioService;
+
+    private AudioClip _damageSound;
+    private AudioClip _dieSound;
+    private AudioClip _healthSound;
+
+   
     /// <summary>
     /// Bind to add desired effects to Damage, Call ApplyDamage(float) when you want to Apply Damage.
     /// Died is invoked when _health <= 0 automatically when applying damage.
@@ -26,26 +33,34 @@ public class HealthModule : MonoBehaviour
     
     private void Awake()
     {
+        _audioService ??= Services.Resolve<AudioService>();
         Health = _initHealth;
     }
-    public void ApplyDamage(float damage, GameObject damageGiver)
+
+    private void Start()
+    {
+        _damageSound = Resources.Load("AudioResources/SFX/DamageSFX.mp3") as AudioClip;
+        _dieSound = Resources.Load("AudioResources/SFX/DieSFX.mp3") as AudioClip;
+        _healthSound = Resources.Load("AudioResources/SFX/HealthSFX.mp3") as AudioClip;
+    }
+
+    public void ApplyDamage(float f)
     {
         Health -= damage;
         OnDamaged?.Invoke(damage);
         if (Health <= 0)
         {
-            if(damageGiver.TryGetComponent<Player>(out Player p))
-            {
-                damageGiver.GetComponent<ScoreModule>().AddToScore(1);
-            }
-            OnDied?.Invoke();
+            Died?.Invoke();
+            _audioService.PlaySound(AUDIO_CHANNEL.SFX, _dieSound);
         }
+        _audioService.PlaySound(AUDIO_CHANNEL.SFX, _damageSound);
     }
 
     public void ApplyHeal(float heal)
     {
-        Health = Mathf.Clamp(Health + heal, Health, _initHealth);
-        OnHealed?.Invoke(heal);
+        Health = Mathf.Clamp(Health + f, Health, _initHealth);
+        Healed?.Invoke(f);
+        _audioService.PlaySound(AUDIO_CHANNEL.SFX, _healthSound);
     }
 
     public void Reset()
