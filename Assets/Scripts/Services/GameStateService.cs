@@ -25,9 +25,11 @@ public class GameStateService : MonoBehaviour, IGameStateService
         }
         else
         {
-            Time.timeScale = 0f;
+            Time.timeScale = 1.0f;
             _pauseMenu.SetActive(status);
             _isPaused= false;
         }
     }
+
+    public void RegisterPauseMenu(GameObject pauseMenu) => _pauseMenu = pauseMenu;
 }
