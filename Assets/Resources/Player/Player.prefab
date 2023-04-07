@@ -58,7 +58,7 @@ MonoBehaviour:
   - {x: 0.2958265, y: -0.2958265, z: 0}
   m_ShapePathHash: 1522865524
   m_Mesh: {fileID: 0}
-  m_InstanceId: 52782
+  m_InstanceId: 52536
   m_LocalBounds:
     m_Center: {x: -0.011600763, y: -0.10208678, z: 0}
     m_Extent: {x: 0.30742726, y: 0.19373971, z: 0}
@@ -252,6 +252,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Human
       objectReference: {fileID: 0}
+    - target: {fileID: 5272552499143439441, guid: cf6879ba03f6f5e4ab3ad5150b0ba076, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5272552499143439447, guid: cf6879ba03f6f5e4ab3ad5150b0ba076, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -304,6 +308,14 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+    - target: {fileID: 5272552500058403403, guid: cf6879ba03f6f5e4ab3ad5150b0ba076, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5272552500311877903, guid: cf6879ba03f6f5e4ab3ad5150b0ba076, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -329,8 +341,24 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 614539736087202569, guid: a25403db85ec5f24c86189b35f44f1a7, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 614539736087202569, guid: a25403db85ec5f24c86189b35f44f1a7, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 1228605993449745919, guid: a25403db85ec5f24c86189b35f44f1a7, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1228605993449745919, guid: a25403db85ec5f24c86189b35f44f1a7, type: 3}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1528954233045646218, guid: a25403db85ec5f24c86189b35f44f1a7, type: 3}
+      propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1528954233045646218, guid: a25403db85ec5f24c86189b35f44f1a7, type: 3}
@@ -339,6 +367,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1528954233045646218, guid: a25403db85ec5f24c86189b35f44f1a7, type: 3}
       propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2880931813937602012, guid: a25403db85ec5f24c86189b35f44f1a7, type: 3}
+      propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2880931813937602012, guid: a25403db85ec5f24c86189b35f44f1a7, type: 3}
@@ -387,6 +419,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5882509366201892112, guid: a25403db85ec5f24c86189b35f44f1a7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8478795163881341575, guid: a25403db85ec5f24c86189b35f44f1a7, type: 3}
+      propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -499,9 +535,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d93166c34b9124f47a179dc666795c57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PS_Damage: {fileID: 6555762222459895675, guid: abab5f50b71af7449a15132c8af1228c, type: 3}
-  PS_DeathPlayer: {fileID: 5499630707724530483, guid: 44baa3607b91efe4b8c3dc8e4cbb7d13, type: 3}
-  PS_Heal: {fileID: 9071594827077375035, guid: 27219754ae789fb44945faff77c57de8, type: 3}
+  _particleDamage: {fileID: 0}
+  _particleDeath: {fileID: 0}
+  _particleHeal: {fileID: 0}
   _initHealth: 100
 --- !u!114 &1570655890629767220
 MonoBehaviour:
@@ -637,7 +673,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!61 &9038745409158936564
 BoxCollider2D:

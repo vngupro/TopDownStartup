@@ -27,7 +27,7 @@ public class Enemy : MonoBehaviour
         // reset health module
         _healthModule = gameObject.GetComponent<HealthModule>();
         _healthModule.Reset();
-        
+        _onEnemyDie = onEnemyDie;
         _healthModule.OnDied += Death;
     }
 
@@ -39,29 +39,34 @@ public class Enemy : MonoBehaviour
         // Chasing player
         enemyPosition = Vector3.MoveTowards(enemyPosition, _player.transform.position, _moveSpeed * Time.deltaTime);
         enemyTransform.position = enemyPosition;
+    }
 
-        Collider2D[] playersCollidedCollider = Physics2D.OverlapCircleAll(enemyPosition, _explosionRadius, _playerMask);
-        
-        if (playersCollidedCollider.Length > 0)
+
+    private void OnTriggerEnter2D(Collider2D c)
+    {
+        if (c.CompareTag("Player"))
         {
-            Explode(playersCollidedCollider);
+            Explode(c.gameObject.GetComponent<Player>());
         }
     }
 
-    private void Explode(Collider2D[] playersCollider)
+    private void Explode(Player p)
     {
-        // Deal damages to players
-        foreach (Collider2D playerCollider in playersCollider)
-        {
-            playerCollider.gameObject.GetComponent<HealthModule>()?.ApplyDamage(_explosionDamages);
-        }
-        
+        p.gameObject.GetComponent<HealthModule>()?.ApplyDamage(_explosionDamages);
         // End his own life
         _healthModule.ApplyDamage(_healthModule.Health);
+        
     }
 
     private void Death()
     {
         _onEnemyDie?.Invoke();
+    }
+
+    private void OnDrawGizmos()
+    {
+        // Draw a yellow sphere at the transform's position
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawSphere(transform.position, _explosionRadius);
     }
 }
