@@ -31,9 +31,9 @@ internal sealed class Player : MonoBehaviour
     {
         _bsp = FindObjectOfType<BSP_Master>();
         _bsp.OnDungeonFinishGenerate += SetToSpawnPoint;
+        FindObjectOfType<CinemachineTargetGroup>().AddMember(transform, 1, 0);
     }
 
-    private void Start() => FindObjectOfType<CinemachineTargetGroup>().AddMember(transform, 1, 0);
 
     private void Update()
     {
