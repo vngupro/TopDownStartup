@@ -1,12 +1,15 @@
+using Cinemachine;
 using UnityEngine;
 using Utils;
 
-[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(HealthModule))]
 [RequireComponent(typeof(ShootModule))]
 internal sealed class Player : MonoBehaviour
 {
-    [SerializeField] private Rigidbody _rb;
+    private static IPlayerService _playerService;
+
+    [SerializeField] private Rigidbody2D _rb;
     [Space]
     [SerializeField] private HealthModule _healthModule;
     [SerializeField] private ShootModule _shootModule;
@@ -14,6 +17,23 @@ internal sealed class Player : MonoBehaviour
     [SerializeField] private float _speed = 10;
 
     private Vector2 _input;
+
+    private BSP_Master _bsp;
+
+    /*private void Awake() => _playerService ??= Services.Resolve<IPlayerService>();
+
+    private void Start()
+    {
+        _playerService.AddPlayer(this);
+    }*/
+    
+    private void Start()
+    {
+        _bsp = FindObjectOfType<BSP_Master>();
+        _bsp.OnDungeonFinishGenerate += SetToSpawnPoint;
+        FindObjectOfType<CinemachineTargetGroup>().AddMember(transform, 1, 0);
+    }
+
 
     private void Update()
     {
@@ -27,8 +47,16 @@ internal sealed class Player : MonoBehaviour
 
     private void Reset()
     {
-        _rb = GetComponent<Rigidbody>();
+        _rb = GetComponent<Rigidbody2D>();
         _healthModule = GetComponent<HealthModule>();
         _shootModule = GetComponent<ShootModule>();
+    }
+
+    private void OnDestroy() => _bsp.OnDungeonFinishGenerate -= SetToSpawnPoint;
+    private void SetToSpawnPoint() => transform.position = _bsp.SpawnPoint;
+
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        col.GetComponent<Stairs>()?.ClimbStairs();
     }
 }

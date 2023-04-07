@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -26,11 +23,12 @@ public class Enemy : MonoBehaviour
 
         _player = player;
         _playerMask = player.layer;
-        
+
         // reset health module
-        _healthModule.ResetModule();
+        _healthModule = gameObject.GetComponent<HealthModule>();
+        _healthModule.Reset();
         
-        _healthModule.Died += Death;
+        _healthModule.OnDied += Death;
     }
 
     private void Update()
