@@ -1,51 +1,55 @@
 using UnityEngine;
 using TMPro;
-public class DeathCountScript : MonoBehaviour, IDataPersistence
+
+public class DeathCountScript : MonoBehaviour
 {
     public HealthModule playerHealthModule;
 
-    private int deathCount = 0;
     private TMP_Text deathCountText;
+
+    [System.Serializable]
+    public class DeathCountDTO : SaveLoadDTO
+    {
+        //public int DeathCount = 0;
+        //[field:SerializeField] public int DeathCount { get; set; }
+    };
+
+    [SerializeField] private SaveLoadDTO deathCountDTO = new();
 
     private void Awake()
     {
+        Services.Resolve<ISaveLoadService>().RegisterDTO(ref deathCountDTO);
+
         deathCountText = GetComponentInChildren<TMP_Text>();
-        deathCountText.text = deathCount.ToString();
-        
+        deathCountText.text = deathCountDTO.DeathCount.ToString();
     }
 
     private void Start()
     {
-        playerHealthModule.OnDied += AddDeathCount;
-        DataPersistenceManager.Instance.OnNewGame += ResetDeathCount;
+        playerHealthModule = FindObjectOfType<HealthModule>();
+        playerHealthModule.OnDied += UpdateDeathCount;
+    }
+
+    // I know it's ugly
+    private void Update()
+    {
+        deathCountText.text = deathCountDTO.DeathCount.ToString();
     }
 
     private void OnDestroy()
     {
-        playerHealthModule.OnDied -= AddDeathCount;
-        DataPersistenceManager.Instance.OnNewGame -= ResetDeathCount;
+        playerHealthModule.OnDied -= UpdateDeathCount;
     }
 
-    public void SaveData(ref GameData data)
+    private void UpdateDeathCount()
     {
-        data.deathCount = deathCount;
-    }
-
-    public void LoadData(GameData data)
-    {
-        deathCount = data.deathCount;
-        deathCountText.text = deathCount.ToString();
-    }
-
-    private void AddDeathCount()
-    {
-        deathCount++;
-        deathCountText.text = deathCount.ToString();
+        deathCountDTO.DeathCount++;
+        deathCountText.text = deathCountDTO.DeathCount.ToString();
     }
 
     private void ResetDeathCount()
     {
-        deathCount = 0;
-        deathCountText.text = deathCount.ToString();
+        deathCountDTO.DeathCount = 0;
+        deathCountText.text = deathCountDTO.DeathCount.ToString();
     }
 }

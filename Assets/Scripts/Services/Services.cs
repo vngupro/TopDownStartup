@@ -16,6 +16,7 @@ internal static class Services
         Register<IPlayerService, PlayerService>();
         Register<IGameStateService, GameStateService>();
         Register<IYoService, YoService>();
+        Register<ISaveLoadService, SaveLoadService>();
     }
 
     private const string AUTHORIZED_CALLER = "Awake";
