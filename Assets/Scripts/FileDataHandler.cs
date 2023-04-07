@@ -35,7 +35,6 @@ public class FileDataHandler
                 }
 
                 // deserialize the data from the Json back into the C# object
-                //loadedData = JsonUtility.FromJson<GameData>(dataToLoad);
                 loadedData = JsonConvert.DeserializeObject<GameData>(dataToLoad);
 
             }

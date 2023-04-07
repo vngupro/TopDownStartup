@@ -12,8 +12,7 @@ internal static class Services
     private static void Initialize()
     {
         Register<IYoService, YoService>();
-        Register<IYoService, YoErrorService>();
-        Register<IYoService, YoWarningService>();
+        Register<ISaveLoadService, SaveLoadService>();
     }
 
     private const string AUTHORIZED_CALLER = "Awake";
