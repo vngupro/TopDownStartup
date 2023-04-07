@@ -445,6 +445,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d93166c34b9124f47a179dc666795c57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PS_Damage: {fileID: 6555762222459895675, guid: abab5f50b71af7449a15132c8af1228c, type: 3}
+  PS_DeathPlayer: {fileID: 5499630707724530483, guid: 44baa3607b91efe4b8c3dc8e4cbb7d13, type: 3}
+  PS_Heal: {fileID: 9071594827077375035, guid: 27219754ae789fb44945faff77c57de8, type: 3}
   _initHealth: 100
 --- !u!114 &1570655890629767220
 MonoBehaviour:
