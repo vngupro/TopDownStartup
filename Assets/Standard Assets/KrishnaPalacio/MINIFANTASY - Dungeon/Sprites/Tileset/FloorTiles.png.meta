@@ -62,12 +62,11 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
-    flipGreenChannel: 0
-  isReadable: 1
+  isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMipmapLimit: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -106,7 +105,6 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
-  swizzle: 50462976
   cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
@@ -477,22 +475,23 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      FloorTiles_0: 341201168551098424
-      FloorTiles_1: 2024074989167273644
-      FloorTiles_10: -4503622882156401908
-      FloorTiles_11: 6259282975473592760
-      FloorTiles_12: -8320104082942662432
-      FloorTiles_2: -7267412387322207863
-      FloorTiles_3: 4016580639043956364
-      FloorTiles_4: -3016971208954903359
-      FloorTiles_5: 1692344186669687708
-      FloorTiles_7: -3357707860964885180
-      FloorTiles_8: -2232588260621223008
-      FloorTiles_9: 3989115921078751139
-      Spikes1_FloorTiles_6: -9050845263534901580
       Spikes2_FloorTiles_13: -6404648669078617216
-  mipmapLimitGroupName: 
+      FloorTiles_2: -7267412387322207863
+      FloorTiles_8: -2232588260621223008
+      FloorTiles_12: -8320104082942662432
+      FloorTiles_5: 1692344186669687708
+      Spikes1_FloorTiles_6: -9050845263534901580
+      FloorTiles_4: -3016971208954903359
+      FloorTiles_11: 6259282975473592760
+      FloorTiles_0: 341201168551098424
+      FloorTiles_10: -4503622882156401908
+      FloorTiles_3: 4016580639043956364
+      FloorTiles_1: 2024074989167273644
+      FloorTiles_7: -3357707860964885180
+      FloorTiles_9: 3989115921078751139
+  spritePackingTag: 
   pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

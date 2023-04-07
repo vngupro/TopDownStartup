@@ -259,6 +259,37 @@ MonoBehaviour:
     mipBias: 0
     varianceClampScale: 0.9
     contrastAdaptiveSharpening: 0
+--- !u!1 &1231689205
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1231689206}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1231689206
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1231689205}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 14.684618, y: 1.9982872, z: -0.3244933}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1548001775
 GameObject:
   m_ObjectHideFlags: 0
@@ -332,7 +363,7 @@ MonoBehaviour:
   - {fileID: -8320104082942662432, guid: 19a8f8578e3bd2b44b4457238e04cb9f, type: 3}
   _tileSprite: {fileID: 2756529107610303085, guid: ce27339c9cee16e40849b66c659660c5, type: 3}
   _corridorSprite: {fileID: 2829748281662522048, guid: 27ccb66f8a088824e814908195c3a31e, type: 3}
-  _stairs: {fileID: 3189826190736515877, guid: daf0e1b394e50ae4691de6457ab187f9, type: 3}
+  _Stairs: {fileID: 3189826190736515877, guid: daf0e1b394e50ae4691de6457ab187f9, type: 3}
 --- !u!114 &1548001779
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -350,3 +381,4 @@ MonoBehaviour:
   _splitStop: 0
   _minRoomSize: 6
   _maxRoomSize: 20
+  test: {fileID: 1231689205}
