@@ -18,7 +18,7 @@ internal sealed class ShootModule : MonoBehaviour
 
     private void Start()
     {
-        _shootSFX = Resources.Load("AudioResources/SFX/ShootSFX.mp3") as AudioClip;
+        _shootSFX = Resources.Load("AudioResources/SFX/ShootSFX") as AudioClip;
     }
 
     private void Update()

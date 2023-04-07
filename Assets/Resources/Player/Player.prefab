@@ -58,7 +58,7 @@ MonoBehaviour:
   - {x: 0.2958265, y: -0.2958265, z: 0}
   m_ShapePathHash: 1522865524
   m_Mesh: {fileID: 0}
-  m_InstanceId: 32292
+  m_InstanceId: -1344
   m_LocalBounds:
     m_Center: {x: -0.011600763, y: -0.10208678, z: 0}
     m_Extent: {x: 0.30742726, y: 0.19373971, z: 0}
@@ -331,7 +331,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5882509366201892112, guid: a25403db85ec5f24c86189b35f44f1a7, type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5882509366201892112, guid: a25403db85ec5f24c86189b35f44f1a7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -431,8 +431,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rb: {fileID: 1808327682920790900}
   _healthModule: {fileID: 5412878782761273416}
-  _shootModule: {fileID: 0}
-  _speed: 1
+  _shootModule: {fileID: 1570655890629767220}
+  _speed: 10
 --- !u!114 &5412878782761273416
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -445,6 +445,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d93166c34b9124f47a179dc666795c57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PS_Damage: {fileID: 6555762222459895675, guid: abab5f50b71af7449a15132c8af1228c, type: 3}
+  PS_DeathPlayer: {fileID: 5499630707724530483, guid: 44baa3607b91efe4b8c3dc8e4cbb7d13, type: 3}
+  PS_Heal: {fileID: 9071594827077375035, guid: 27219754ae789fb44945faff77c57de8, type: 3}
   _initHealth: 100
 --- !u!114 &1570655890629767220
 MonoBehaviour:
@@ -458,8 +461,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf77b59f9682ae1489ee91744f4fdcb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bullet: {fileID: 0}
-  _bulletSound: {fileID: 0}
+  _bullet: {fileID: 5724619817875717697, guid: eab605f7395a0f54d9ec84cc2c0ed419, type: 3}
 --- !u!54 &1808327682920790900
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -482,7 +484,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
