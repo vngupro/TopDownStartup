@@ -17,12 +17,12 @@ internal sealed class Player : MonoBehaviour
 
     private Vector2 _input;
 
-    private void Awake() => _playerService ??= Services.Resolve<IPlayerService>();
+    /*private void Awake() => _playerService ??= Services.Resolve<IPlayerService>();
 
     private void Start()
     {
         _playerService.AddPlayer(this);
-    }
+    }*/
 
     private void Update()
     {
