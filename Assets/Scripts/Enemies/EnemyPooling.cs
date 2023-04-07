@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -32,7 +30,7 @@ public class EnemyPooling : MonoBehaviour
         return pooledEnemy;
     }
 
-    public bool InitializeEnemy(Enemy pooledEnemy, GameObject player, Enemy.OnEnemyDie onEnemyDie)
+    public bool InitializeEnemy(Enemy pooledEnemy, Vector3 position, GameObject player, Enemy.OnEnemyDie onEnemyDie)
     {
         if (_enemiesPool.Exists((x) => x == pooledEnemy))
             return false;
@@ -40,7 +38,7 @@ public class EnemyPooling : MonoBehaviour
         Enemy.OnEnemyDie onEnemyDieAction = () => PoolEnemy(pooledEnemy);
         if (onEnemyDie != null) onEnemyDieAction += onEnemyDie;
         
-        pooledEnemy.Initialize(Vector2.zero, player, onEnemyDieAction);
+        pooledEnemy.Initialize(position, player, onEnemyDieAction);
 
         return true;
     }

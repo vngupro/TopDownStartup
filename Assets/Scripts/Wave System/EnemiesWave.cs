@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -16,6 +15,9 @@ public class EnemiesWave : MonoBehaviour
     private int _currentWaveNumber;
     private int _currentEnemiesAliveNumber;
 
+    [Header("Basics")]
+    [SerializeField] private Transform[] _spawnPoints;
+    
     [Header("Waves")]
     [SerializeField] private Enemy[] _enemiesType;
     [SerializeField] private int _waveNumber;
@@ -23,6 +25,16 @@ public class EnemiesWave : MonoBehaviour
 
     private void Awake()
     {
+        try
+        {
+            _player = Services.Resolve<IPlayerService>().GetPlayerAt(0).gameObject;
+        }
+        catch (NullReferenceException e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+        
         foreach (var enemyType in _enemiesType.Distinct())
         {
             string enemyTypeName = enemyType.GetType().FullName ?? _DEFAULT_NAME;
@@ -36,29 +48,18 @@ public class EnemiesWave : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        try
-        {
-            _player = FindObjectOfType<Player>().gameObject;
-        }
-        catch (NullReferenceException e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
-    }
-    
     private void SpawnEnemyWave()
     {
         int enemyType = Random.Range(0, _enemiesType.Length);
-        
+
         EnemyPooling enemyPooling = _enemyPoolingObjects[_enemiesType[enemyType].GetType().FullName ?? _DEFAULT_NAME];
 
         for (int i = 0; i < _enemiesNumberPerWave - 1; i++)
         {
+            Vector3 spawnPosition = _spawnPoints[Random.Range(0, _spawnPoints.Length)]?.position ?? Vector3.zero;
+            
             Enemy nPooledEnemy = enemyPooling.SpawnEnemy();
-            enemyPooling.InitializeEnemy(nPooledEnemy, _player, () => OneEnemyDied(nPooledEnemy));
+            enemyPooling.InitializeEnemy(nPooledEnemy, spawnPosition, _player, () => OneEnemyDied(nPooledEnemy));
         }
     }
 
