@@ -8,8 +8,6 @@ using UnityEditor;
 
 class Node
 {
-    #region Variables
-
     private Node _parent;
     private Node _leftChild;
     private Node _rightChild;
@@ -22,21 +20,14 @@ class Node
     private Room _room;
 
     private List<Rect> _corridors = new List<Rect>();
-    public Node Parent => _parent;
 
     public Node LeftChild => _leftChild;
 
     public Node RightChild => _rightChild;
-
-    public bool IsLeaf => _isLeaf;
-
+    
     public Rect Rect => _rect;
 
-    public Room Room
-    {
-        get => _room;
-        set => _room = value;
-    }
+    public Room Room => _room;
 
     public List<Rect> Corridors => _corridors;
 
@@ -48,8 +39,6 @@ class Node
     }
 
     private SplitOrientation _nodeSplit;
-
-    #endregion
 
 
 
@@ -112,9 +101,9 @@ class Node
 
     public void CreateRoom()
     {
-        if (_leftChild != null) _leftChild.CreateRoom();
+       _leftChild?.CreateRoom();
 
-        if (_rightChild != null) _rightChild.CreateRoom();
+        _rightChild?.CreateRoom();
 
         if (_leftChild != null && _rightChild != null) CreateCorridors(_leftChild, _rightChild);
 
@@ -271,11 +260,6 @@ class Node
             int x = (int)Random.Range(_room.Rect.xMin, _room.Rect.xMax);
             int y = (int)Random.Range(_room.Rect.yMin, _room.Rect.yMax);
             _master.SpawnPoint = new Vector2(x, y);
-            // GameObject go = new GameObject();
-            // go.transform.position = new Vector2(x, y);
-            // go.transform.localScale = new Vector3(5.5f, 5.5f, 1);
-            // go.AddComponent<SpriteRenderer>().sprite = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/InputFieldBackground.psd");
-            // go.GetComponent<SpriteRenderer>().sortingOrder = 5;
         }
 
         if (_leftChild != null && _rightChild == null) _leftChild.GenerateSpawn();

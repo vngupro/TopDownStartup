@@ -1129,7 +1129,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 1
+  orthographic size: 5.625
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -61165,121 +61165,7 @@ CompositeCollider2D:
   m_GeometryType: 0
   m_GenerationType: 0
   m_EdgeRadius: 0
-  m_ColliderPaths:
-  - m_Collider: {fileID: 1032028569}
-    m_ColliderPaths:
-    - - X: 560000000
-        Y: 260000000
-      - X: 550000000
-        Y: 260000000
-      - X: 550000000
-        Y: 620000000
-      - X: -250000000
-        Y: 620000000
-      - X: -250000000
-        Y: -110000000
-      - X: 560000000
-        Y: -110000000
-    - - X: 190000000
-        Y: -80000000
-      - X: 190000000
-        Y: 40000000
-      - X: 240000000
-        Y: 40000000
-      - X: 240000000
-        Y: 70000000
-      - X: 170000000
-        Y: 70000000
-      - X: 170000000
-        Y: 110000000
-      - X: 100000000
-        Y: 110000000
-      - X: 100000000
-        Y: 100000000
-      - X: 10000000
-        Y: 100000000
-      - X: 10000000
-        Y: 30000000
-      - X: 60000000
-        Y: 30000000
-      - X: 60000000
-        Y: -50000000
-      - X: -70000000
-        Y: -50000000
-      - X: -70000000
-        Y: 30000000
-      - X: -20000000
-        Y: 30000000
-      - X: -20000000
-        Y: 100000000
-      - X: -70000000
-        Y: 100000000
-      - X: -70000000
-        Y: 160000000
-      - X: -10000000
-        Y: 160000000
-      - X: -10000000
-        Y: 200000000
-      - X: 100000000
-        Y: 200000000
-      - X: 100000000
-        Y: 140000000
-      - X: 170000000
-        Y: 140000000
-      - X: 170000000
-        Y: 210000000
-      - X: 190000000
-        Y: 210000000
-      - X: 190000000
-        Y: 230000000
-      - X: 230000000
-        Y: 230000000
-      - X: 230000000
-        Y: 210000000
-      - X: 300000000
-        Y: 210000000
-      - X: 300000000
-        Y: 360000000
-      - X: 190000000
-        Y: 360000000
-      - X: 190000000
-        Y: 550000000
-      - X: 450000000
-        Y: 550000000
-      - X: 450000000
-        Y: 360000000
-      - X: 330000000
-        Y: 360000000
-      - X: 330000000
-        Y: 210000000
-      - X: 360000000
-        Y: 210000000
-      - X: 360000000
-        Y: 170000000
-      - X: 410000000
-        Y: 170000000
-      - X: 410000000
-        Y: 260000000
-      - X: 500000000
-        Y: 260000000
-      - X: 500000000
-        Y: 130000000
-      - X: 410000000
-        Y: 130000000
-      - X: 410000000
-        Y: 140000000
-      - X: 360000000
-        Y: 140000000
-      - X: 360000000
-        Y: 70000000
-      - X: 280000000
-        Y: 70000000
-      - X: 280000000
-        Y: 40000000
-      - X: 360000000
-        Y: 40000000
-      - X: 360000000
-        Y: -80000000
+  m_ColliderPaths: []
   m_CompositePaths:
     m_Paths:
     - - {x: 55.99997, y: -11}
@@ -61421,7 +61307,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!156049354 &1057994327
 Grid:
   m_ObjectHideFlags: 0
@@ -63077,7 +62963,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1615383567
 Transform:
   m_ObjectHideFlags: 0
@@ -63732,7 +63618,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1794356289}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e5eb80d8e62d9d145bb50fb783c0f731, type: 3}
   m_Name: 
@@ -63741,11 +63627,8 @@ MonoBehaviour:
   m_RotationMode: 0
   m_UpdateMethod: 2
   m_Targets:
-  - target: {fileID: 0}
-    weight: 1
-    radius: 0
   - target: {fileID: 1178917226}
-    weight: 0.2
+    weight: 0.01
     radius: 0
 --- !u!1 &1807432946
 GameObject:
@@ -64439,7 +64322,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2045151304}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
   m_Name: 
@@ -64478,7 +64361,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2045151304}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 00b2d199b96b516448144ab30fb26aed, type: 3}
   m_Name: 

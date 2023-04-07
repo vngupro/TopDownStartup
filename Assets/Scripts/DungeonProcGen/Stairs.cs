@@ -12,8 +12,6 @@ public class Stairs : MonoBehaviour
         set => _bsp = value;
     }
 
-    public void ClimbStairs()
-    {
-        _bsp.ResetBSP();
-    }
+    public void ClimbStairs() => _bsp.ResetBSP();
+
 }

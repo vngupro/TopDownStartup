@@ -11,15 +11,17 @@ using Random = UnityEngine.Random;
 public class BSP_Master : MonoBehaviour
 {
     [SerializeField]                private Vector2Int _floorSize;
-    [SerializeField]                private int _maxDivision;
-    [SerializeField][Range(0, 100)] private int _splitStop;
-    [SerializeField]                private int _minRoomSize;
-    [SerializeField]                private int _maxRoomSize;
+    [SerializeField]                private int        _maxDivision;
+    [SerializeField][Range(0, 100)] private int        _splitStop;
+    [SerializeField]                private int        _minRoomSize;
+    [SerializeField]                private int        _maxRoomSize;
 
-    private Vector2 _dLeft = new Vector2(-0.5f, -0.5f);
-    private Vector2 _dRight= new Vector2(0.5f, -0.5f);
-    private Vector2 _uLeft = new Vector2(-0.5f, 0.5f);
-    private Vector2 _uRight= new Vector2(0.5f, 0.5f);
+    private static Vector2 _dLeft  = new Vector2(-0.5f, -0.5f);
+    private static Vector2 _dRight = new Vector2(0.5f, -0.5f);
+    private static Vector2 _uLeft  = new Vector2(-0.5f, 0.5f);
+    private static Vector2 _uRight = new Vector2(0.5f, 0.5f);
+
+    private static IDungeonService _dungeonService;
 
     private Room_Master _roomMaster;
     
@@ -29,6 +31,8 @@ public class BSP_Master : MonoBehaviour
 
     private GameObject _collisionsParent;
 
+    private Camera _cam;
+    public Action OnDungeonFinishGenerate { get; set; } = () => { };
     public bool HasStairs
     {
         get => _hasStairs;
@@ -54,32 +58,31 @@ public class BSP_Master : MonoBehaviour
     private void Awake()
     {
         _collisionsParent = new GameObject("Collisions");
+        _dungeonService ??= Services.Resolve<IDungeonService>();
     }
 
     void Start()
     {
+        _cam = Camera.main;
         Init();
     }
 
     void Update()
     {
+
+#if UNITY_EDITOR
         _root.DebugDraw(true, Color.white);
-
         if (Input.GetKeyDown(KeyCode.Space)) ResetBSP();
-
-        //Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-        //Collider2D col = Physics2D.OverlapBox(mousePosition, new Vector2(0.25f, 0.25f), 0);
-        //Debug.Log(col?.name);
+#endif
     }
 
     void Init()
     {
 #if UNITY_EDITOR
-        Assembly assembly = Assembly.GetAssembly(typeof(UnityEditor.Editor));
-        System.Type type = assembly.GetType("UnityEditor.LogEntries");
-        MethodInfo method = type.GetMethod("Clear");
-        method.Invoke(new object(), null);
+        // Assembly assembly = Assembly.GetAssembly(typeof(UnityEditor.Editor));
+        // System.Type type = assembly.GetType("UnityEditor.LogEntries");
+        // MethodInfo method = type.GetMethod("Clear");
+        // method.Invoke(new object(), null);
 #endif
         TilesArray = Enumerable.Repeat(false, _floorSize.x * _floorSize.y).ToList();
 
@@ -92,17 +95,21 @@ public class BSP_Master : MonoBehaviour
         GenerateCollisions();
         _root.GenerateSpawn();
         
-        DebugPrintRoom();
-
-
-        float w = _root.Rect.width;
-        float h = _root.Rect.width;
-        float x = _root.Rect.center.x;
-        float y = _root.Rect.center.y;
-
-        Camera.main.transform.position = new Vector3(x, y, -10f);
-
-        Camera.main.orthographicSize = ((w > h * Camera.main.aspect) ? (float)w / (float)Camera.main.pixelWidth * Camera.main.pixelHeight : h) / 2;
+        _dungeonService.SpawnPlayers();
+        
+#if UNITY_EDITOR
+        //DebugPrintRoom();
+#endif
+        
+        //This code serve as debug, to fit the whole dungeon into the cam render 
+        // float w = _root.Rect.width;
+        // float h = _root.Rect.width;
+        // float x = _root.Rect.center.x;
+        // float y = _root.Rect.center.y;
+        //
+        // _cam.transform.position = new Vector3(x, y, -10f);
+        //
+        // _cam.orthographicSize = ((w > h * _cam.aspect) ? (float)w / (float)_cam.pixelWidth * _cam.pixelHeight : h) / 2;
     }
 
     void GenerateBSPNode(Node node)
@@ -187,10 +194,6 @@ public class BSP_Master : MonoBehaviour
 
         SpriteRenderer sr = colGo.AddComponent<SpriteRenderer>();
         sr.sprite = _roomMaster.WallTilesSpr[Random.Range(0, _roomMaster.WallTilesSpr.Count())];
-        // GameObject[] currentSelection = Selection.gameObjects;
-        // Array.Resize(ref currentSelection, currentSelection.Length + 1);
-        // currentSelection[currentSelection.Length - 1] = colGo;
-        // Selection.objects = currentSelection;
     }
 
     public void ResetBSP()
@@ -210,6 +213,7 @@ public class BSP_Master : MonoBehaviour
         TilesArray.Clear();
         
         _hasStairs = false;
+        HasSpawnPoint = false;
 
         Init();
     }
@@ -233,35 +237,36 @@ public class BSP_Master : MonoBehaviour
         GameObject stairsGo = Instantiate(_roomMaster.Stairs, new Vector3(vec.x, vec.y, 0), Quaternion.identity);
         stairsGo.transform.parent = parent.Render.transform;
         stairsGo.GetComponent<SpriteRenderer>().sortingOrder = 1;
+        stairsGo.GetComponent<Stairs>().BSP = this;
     }
 
-    void OnDrawGizmos()
-    {
-        //if (_root != null) DebugDrawNodeGizmo(_root, Color.white);
-    }
-
-    void DebugDrawNodeGizmo(Node node, Color col)
-    {
-        Gizmos.color = col;
-        Gizmos.DrawCube(node.Rect.center, (Vector3)node.Rect.size);
-        if (node.LeftChild != null) DebugDrawNodeGizmo(node.LeftChild, Color.red);
-        if (node.RightChild != null) DebugDrawNodeGizmo(node.RightChild, Color.blue);
-    }
+    // void OnDrawGizmos()
+    // {
+    //     if (_root != null) DebugDrawNodeGizmo(_root, Color.white);
+    // }
+    //
+    // void DebugDrawNodeGizmo(Node node, Color col)
+    // {
+    //     Gizmos.color = col;
+    //     Gizmos.DrawCube(node.Rect.center, (Vector3)node.Rect.size);
+    //     if (node.LeftChild != null) DebugDrawNodeGizmo(node.LeftChild, Color.red);
+    //     if (node.RightChild != null) DebugDrawNodeGizmo(node.RightChild, Color.blue);
+    // }
     
-    void DebugPrintRoom()
-    {
-        string str = "";
-        for (int i = _floorSize.y - 1; i >= 0; --i)
-        {
-            for (int j = _floorSize.x - 1; j >= 0; --j)
-            {
-                bool tile = GetTile(j, i);
-                str += tile ? "<color=#ff0000ff>X</color>" : "0";
-            }
-
-            str += "\n";
-        }
-        Debug.Log(str);
-    }
+    // void DebugPrintRoom()
+    // {
+    //     string str = "";
+    //     for (int i = _floorSize.y - 1; i >= 0; --i)
+    //     {
+    //         for (int j = _floorSize.x - 1; j >= 0; --j)
+    //         {
+    //             bool tile = GetTile(j, i);
+    //             str += tile ? "<color=#ff0000ff>X</color>" : "0";
+    //         }
+    //
+    //         str += "\n";
+    //     }
+    //     Debug.Log(str);
+    // }
 }
 

@@ -11,6 +11,7 @@ internal static class Services
     /// </summary>
     private static void Initialize()
     {
+        Register<IDungeonService, DungeonService>();
         Register<IAudioService, AudioService>();
         Register<IPlayerService, PlayerService>();
         Register<IGameStateService, GameStateService>();
